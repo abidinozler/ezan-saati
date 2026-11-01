@@ -28,3 +28,6 @@ JAVA_HOME="/c/Program Files/Android/Android Studio/jbr" ./gradlew assembleDebug 
 ```
 
 Signing uses `keystore/ezan.keystore`, which is not in the repository.
+
+## License
+GPL-3.0 — see [LICENSE](LICENSE).
