@@ -93,6 +93,11 @@
     <string name="settings_lock_screen_countdown">Geri sayımı göster</string>
     <string name="settings_lock_screen_hint">Kilit ekranında ve bildirim panelinde sıradaki vakte kalan süre ile günün vakitleri. Sessizdir.</string>
     <string name="settings_needs_notification_permission">Görünmesi için bildirim izni gerekir.</string>
+    <string name="settings_friday">Cuma namazı</string>
+    <string name="settings_friday_silence">Cuma namazında sessize al</string>
+    <string name="settings_friday_silence_hint">Cuma öğle ezanından 5 dk önce telefonu sessize alır, ezandan 25 dk sonra önceki moduna döndürür.</string>
+    <string name="settings_friday_needs_dnd">Bunun için \"Rahatsız Etmeyin\" erişimi gerekir.</string>
+    <string name="action_grant_dnd">Erişim ver</string>
     <string name="settings_offsets">Vakit ince ayarı (dakika)</string>
     <string name="settings_offsets_hint">Resmî takvimle karşılaştırın; fark varsa buradan düzeltin.</string>
     <string name="action_close">Kapat</string>

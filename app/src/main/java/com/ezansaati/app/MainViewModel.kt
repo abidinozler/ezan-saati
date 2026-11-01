@@ -12,6 +12,7 @@ import com.ezansaati.app.data.SettingsRepository
 import com.ezansaati.app.data.nearestCity
 import com.ezansaati.app.location.LocationProvider
 import com.ezansaati.app.notification.AlarmScheduler
+import com.ezansaati.app.notification.FridaySilence
 import com.ezansaati.app.notification.PrayerNotifications
 import com.ezansaati.app.prayer.AsrMethod
 import com.ezansaati.app.prayer.CalculationMethod
@@ -33,6 +34,8 @@ data class UiState(
     val notificationsEnabled: Map<Prayer, Boolean> = emptyMap(),
     val offsets: Map<Prayer, Int> = emptyMap(),
     val lockScreenCountdown: Boolean = true,
+    val fridaySilence: Boolean = false,
+    val hasDndAccess: Boolean = true,
     /** null: konuma göre otomatik */
     val methodChoice: CalculationMethod? = null,
     val method: CalculationMethod = CalculationMethod.DIYANET,
@@ -68,6 +71,8 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                 notificationsEnabled = Prayer.entries.associateWith(settings::isNotificationEnabled),
                 offsets = settings.offsets(),
                 lockScreenCountdown = settings.isLockScreenCountdownEnabled(),
+                fridaySilence = settings.isFridaySilenceEnabled(),
+                hasDndAccess = FridaySilence.hasAccess(app),
                 methodChoice = settings.methodChoice(),
                 method = settings.method(),
                 asrMethod = settings.asrMethod(),
@@ -79,6 +84,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
             )
         }
         AlarmScheduler.scheduleNext(app)
+        FridaySilence.schedule(app)
         PrayerWidget.updateAll(app)
     }
 
@@ -119,6 +125,11 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     fun setAsrMethod(asr: AsrMethod) {
         settings.setAsrMethod(asr)
+        refresh()
+    }
+
+    fun setFridaySilence(enabled: Boolean) {
+        settings.setFridaySilenceEnabled(enabled)
         refresh()
     }
 

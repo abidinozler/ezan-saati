@@ -234,6 +234,37 @@ fun SettingsScreen(state: UiState, viewModel: MainViewModel) {
             }
         }
 
+        // ---- Cuma ----
+        Section(stringResource(R.string.settings_friday)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Column(Modifier.weight(1f)) {
+                    Text(stringResource(R.string.settings_friday_silence), style = MaterialTheme.typography.bodyLarge)
+                    Text(
+                        stringResource(R.string.settings_friday_silence_hint),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                Switch(
+                    checked = state.fridaySilence,
+                    onCheckedChange = viewModel::setFridaySilence,
+                )
+            }
+            if (state.fridaySilence && !state.hasDndAccess) {
+                Text(
+                    stringResource(R.string.settings_friday_needs_dnd),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.error,
+                )
+                FilledTonalButton(onClick = {
+                    context.startActivity(Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS))
+                }) { Text(stringResource(R.string.action_grant_dnd)) }
+            }
+        }
+
         // ---- İnce ayar ----
         Section(stringResource(R.string.settings_offsets)) {
             Text(

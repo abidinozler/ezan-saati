@@ -93,6 +93,11 @@
     <string name="settings_lock_screen_countdown">Countdown anzeigen</string>
     <string name="settings_lock_screen_hint">Verbleibende Zeit bis zum nächsten Gebet und die heutigen Zeiten auf dem Sperrbildschirm und in der Benachrichtigungsleiste. Lautlos.</string>
     <string name="settings_needs_notification_permission">Dafür ist die Benachrichtigungsberechtigung nötig.</string>
+    <string name="settings_friday">Freitagsgebet</string>
+    <string name="settings_friday_silence">Telefon zum Freitagsgebet stummschalten</string>
+    <string name="settings_friday_silence_hint">Schaltet 5 Min. vor dem Dhuhr-Adhan am Freitag auf lautlos und 25 Min. danach zurück.</string>
+    <string name="settings_friday_needs_dnd">Dafür ist der Zugriff auf „Bitte nicht stören“ nötig.</string>
+    <string name="action_grant_dnd">Zugriff erlauben</string>
     <string name="settings_offsets">Zeiten feinjustieren (Minuten)</string>
     <string name="settings_offsets_hint">Vergleichen Sie mit Ihrem örtlichen Kalender und korrigieren Sie Abweichungen hier.</string>
     <string name="action_close">Schließen</string>

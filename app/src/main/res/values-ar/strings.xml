@@ -93,6 +93,11 @@
     <string name="settings_lock_screen_countdown">إظهار العد التنازلي</string>
     <string name="settings_lock_screen_hint">الوقت المتبقي حتى الصلاة التالية ومواقيت اليوم على شاشة القفل وفي لوحة الإشعارات. بدون صوت.</string>
     <string name="settings_needs_notification_permission">يتطلب ذلك إذن الإشعارات.</string>
+    <string name="settings_friday">صلاة الجمعة</string>
+    <string name="settings_friday_silence">كتم صوت الهاتف لصلاة الجمعة</string>
+    <string name="settings_friday_silence_hint">يكتم صوت الهاتف قبل أذان ظهر الجمعة بـ5 دقائق ويعيده إلى وضعه السابق بعد الأذان بـ25 دقيقة.</string>
+    <string name="settings_friday_needs_dnd">يتطلب ذلك إذن الوصول إلى «عدم الإزعاج».</string>
+    <string name="action_grant_dnd">منح الإذن</string>
     <string name="settings_offsets">ضبط المواقيت (بالدقائق)</string>
     <string name="settings_offsets_hint">قارن بالتقويم المحلي وصحّح أي فرق من هنا.</string>
     <string name="action_close">إغلاق</string>

@@ -36,6 +36,8 @@ No DI, no database. `SettingsRepository` (SharedPreferences `ezan_settings`) is 
 
 **Alarm chain** (`notification/`): `AlarmScheduler.scheduleNext` sets exactly one exact alarm (fixed request code) for the next notification-enabled prayer within today/tomorrow. `PrayerAlarmReceiver` shows the notification (skipped if >15 min late) and schedules the next one. `SystemEventReceiver` re-arms the chain and widget on boot, time/timezone change, package update and exact-alarm permission change. `MainViewModel.refresh()` also re-arms both — any settings change goes through `refresh()`.
 
+**Friday silence** (`notification/FridaySilence.kt`, window logic in `prayer/FridayWindow.kt`): optional; two exact alarms put the ringer on silent 5 min before Friday Dhuhr and restore the saved previous mode 25 min after (only if still silent). Needs the user-granted Do Not Disturb access; `schedule()` is re-run from `refresh()` and `SystemEventReceiver` like the prayer alarm chain.
+
 **Widget + lock-screen countdown** (`widget/PrayerWidget.kt`, `notification/CountdownNotification.kt`): `PrayerWidget.updateAll` refreshes both. RemoteViews and the ongoing notification use a `Chronometer` counting down on their own; they are only redrawn by a non-wakeup `RTC` alarm at the next prayer time or midnight (whichever is first), via `ACTION_REFRESH`.
 
 UI: single `MainActivity` hosting Compose screens (`ui/home`, `ui/qibla`, `ui/settings`) backed by one `MainViewModel` exposing `StateFlow<UiState>`. Location comes from GPS (`FusedLocationProvider`, coarse) snapped to the nearest of the 81 provinces in `data/Cities.kt` for naming, or picked from that list directly.

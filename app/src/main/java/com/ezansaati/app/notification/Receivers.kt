@@ -31,6 +31,7 @@ class SystemEventReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action !in HANDLED_ACTIONS) return
         AlarmScheduler.scheduleNext(context)
+        FridaySilence.schedule(context)
         PrayerWidget.updateAll(context)
     }
 

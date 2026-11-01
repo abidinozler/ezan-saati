@@ -12,7 +12,7 @@ NOTES="${1:-Yeni sürüm}"
 cd "$(dirname "$0")"
 # Sistemdeki JAVA_HOME eski bir Java olabilir; Gradle 9 için Android Studio'nun JBR'si kullanılır.
 export JAVA_HOME="${EZAN_JAVA_HOME:-/c/Program Files/Android/Android Studio/jbr}"
-./gradlew assembleGithubRelease testGithubReleaseUnitTest -q
+./gradlew assembleGithubRelease testGithubDebugUnitTest -q
 
 APK="$LOCALAPPDATA/EzanSaatiBuild/app/outputs/apk/github/release/app-github-release.apk"
 BUILD_TOOLS=$(ls -d "$LOCALAPPDATA/Android/Sdk/build-tools/"* | tail -1)

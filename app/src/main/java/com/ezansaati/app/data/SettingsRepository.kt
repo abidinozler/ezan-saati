@@ -52,6 +52,13 @@ class SettingsRepository(context: Context) {
         prefs.edit { putBoolean(KEY_LOCK_SCREEN, enabled) }
     }
 
+    /** Cuma namazında telefonu otomatik sessize alma. */
+    fun isFridaySilenceEnabled(): Boolean = prefs.getBoolean(KEY_FRIDAY_SILENCE, false)
+
+    fun setFridaySilenceEnabled(enabled: Boolean) {
+        prefs.edit { putBoolean(KEY_FRIDAY_SILENCE, enabled) }
+    }
+
     /** Kullanıcının seçtiği yöntem; null ise konuma göre otomatik. */
     fun methodChoice(): CalculationMethod? =
         prefs.getString(KEY_METHOD, null)?.let { name -> CalculationMethod.entries.firstOrNull { it.name == name } }
@@ -101,5 +108,6 @@ class SettingsRepository(context: Context) {
         const val KEY_LOCK_SCREEN = "lock_screen_countdown"
         const val KEY_METHOD = "calculation_method"
         const val KEY_ASR = "asr_method"
+        const val KEY_FRIDAY_SILENCE = "friday_silence"
     }
 }
