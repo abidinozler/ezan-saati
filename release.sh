@@ -29,11 +29,22 @@ git add -A
 git commit -q -m "Sürüm $VERSION" -m "$NOTES" -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>" || true
 git push -q "https://x-access-token:$GITHUB_TOKEN@github.com/$OWNER/$REPO.git" HEAD:main
 
-BODY=$(TAG="$TAG" VERSION="$VERSION" NOTES="$NOTES" node -e '
+# Notlar bir dosyadan da verilebilir (Windows'ta komut satırından geçen Türkçe/Arapça karakterler bozulabiliyor).
+[ -f "$NOTES" ] && NOTES=$(cat "$NOTES")
+BODY_FILE=$(mktemp)
+TAG="$TAG" VERSION="$VERSION" NOTES="$NOTES" node -e '
     const e = process.env
-    console.log(JSON.stringify({ tag_name: e.TAG, target_commitish: "main", name: e.VERSION, body: e.NOTES }))')
-RELEASE_ID=$(curl -fsS "${AUTH[@]}" -X POST "$API/releases" -d "$BODY" |
-    node -e 'let s = ""; process.stdin.on("data", d => s += d).on("end", () => console.log(JSON.parse(s).id))')
+    process.stdout.write(JSON.stringify({ tag_name: e.TAG, target_commitish: "main", name: e.VERSION, body: e.NOTES }))' \
+    > "$BODY_FILE"
+RESPONSE=$(curl -sS "${AUTH[@]}" -X POST "$API/releases" --data-binary @"$BODY_FILE")
+rm -f "$BODY_FILE"
+RELEASE_ID=$(printf '%s' "$RESPONSE" | node -e '
+    let s = ""
+    process.stdin.on("data", d => s += d).on("end", () => {
+        const r = JSON.parse(s)
+        if (!r.id) { console.error("Release oluşturulamadı: " + s); process.exit(1) }
+        console.log(r.id)
+    })')
 
 curl -fsS "${AUTH[@]}" -H "Content-Type: application/vnd.android.package-archive" \
     --data-binary @EzanSaati.apk \
