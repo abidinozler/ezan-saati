@@ -24,7 +24,7 @@ Güncellemeleri otomatik almak için [Obtainium](https://github.com/ImranR98/Obt
 Requires Android Studio (its bundled JBR, Java 25) — Gradle 9.8.2, AGP 9.5.
 
 ```bash
-JAVA_HOME="/c/Program Files/Android/Android Studio/jbr" ./gradlew assembleDebug testDebugUnitTest
+JAVA_HOME="/c/Program Files/Android/Android Studio/jbr" ./gradlew assembleGithubDebug testGithubDebugUnitTest
 ```
 
 Signing uses `keystore/ezan.keystore`, which is not in the repository.

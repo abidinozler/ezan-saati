@@ -55,6 +55,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import com.ezansaati.app.BuildConfig
 import com.ezansaati.app.MainViewModel
 import com.ezansaati.app.R
 import com.ezansaati.app.UiState
@@ -157,6 +158,21 @@ fun SettingsScreen(state: UiState, viewModel: MainViewModel) {
                     notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
                 }) { Text(stringResource(R.string.action_grant_notifications)) }
             }
+            if (!state.canScheduleExactAlarms && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                Text(
+                    stringResource(R.string.settings_exact_alarm_hint),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.error,
+                )
+                FilledTonalButton(onClick = {
+                    context.startActivity(
+                        Intent(
+                            Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM,
+                            "package:${context.packageName}".toUri(),
+                        )
+                    )
+                }) { Text(stringResource(R.string.action_allow_exact_alarms)) }
+            }
             Prayer.entries.forEach { prayer ->
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -176,12 +192,16 @@ fun SettingsScreen(state: UiState, viewModel: MainViewModel) {
                     style = MaterialTheme.typography.bodySmall,
                 )
                 OutlinedButton(onClick = {
-                    context.startActivity(
+                    // Play sürümünde doğrudan muafiyet istenmez (politika); genel ayar listesi açılır.
+                    val intent = if (BuildConfig.PLAY_STORE) {
+                        Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
+                    } else {
                         Intent(
                             Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
                             "package:${context.packageName}".toUri(),
                         )
-                    )
+                    }
+                    context.startActivity(intent)
                 }) { Text(stringResource(R.string.action_disable_battery_optimization)) }
             }
         }

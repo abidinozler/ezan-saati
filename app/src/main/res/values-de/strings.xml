@@ -87,6 +87,8 @@
     <string name="action_grant_notifications">Benachrichtigungen erlauben</string>
     <string name="settings_battery_hint">Manche Telefone verzögern Benachrichtigungen, um Akku zu sparen. Deaktivieren Sie die Akkuoptimierung für pünktliche Benachrichtigungen.</string>
     <string name="action_disable_battery_optimization">Akkuoptimierung deaktivieren</string>
+    <string name="settings_exact_alarm_hint">Exakte Alarme sind deaktiviert, Gebetsbenachrichtigungen können sich verspäten. Erlauben Sie „Wecker &amp; Erinnerungen“ für pünktliche Benachrichtigungen.</string>
+    <string name="action_allow_exact_alarms">Wecker &amp; Erinnerungen erlauben</string>
     <string name="settings_lock_screen">Sperrbildschirm</string>
     <string name="settings_lock_screen_countdown">Countdown anzeigen</string>
     <string name="settings_lock_screen_hint">Verbleibende Zeit bis zum nächsten Gebet und die heutigen Zeiten auf dem Sperrbildschirm und in der Benachrichtigungsleiste. Lautlos.</string>

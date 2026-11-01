@@ -1,0 +1,11 @@
+Ezan Saati ist eine schlichte, schöne Gebetszeiten-App, die komplett offline funktioniert.
+
+• Berechnungsmethoden: Diyanet, Islamische Weltliga, ISNA, Ägypten, Karatschi und Umm al-Qura – automatisch passend zu Ihrem Standort. Hanafitische Asr-Zeit wählbar.
+• Live-Countdown bis zum nächsten Gebet in der App, im Widget und auf dem Sperrbildschirm.
+• Benachrichtigungen zu jeder Gebetszeit, auch nach einem Neustart.
+• Qibla-Kompass mit Korrektur der Missweisung; vibriert, wenn Sie zur Qibla ausgerichtet sind.
+• Mondphase und Hidschri-Datum.
+• Himmel-Design, das sich im Laufe des Tages verändert.
+• Standort per GPS oder aus einer Städteliste; minutengenaue Feinjustierung an Ihren örtlichen Kalender.
+
+Keine Werbung, kein Tracking, keine Internetberechtigung. Ihr Standort bleibt auf Ihrem Gerät.

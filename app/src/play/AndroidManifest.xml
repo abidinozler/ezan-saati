@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Play Store sürümü için izin farkları:
+    - USE_EXACT_ALARM yalnızca çalar saat/takvim uygulamalarına veriliyor; yerine kullanıcının
+      "Alarm ve hatırlatıcılar" ayarından verdiği SCHEDULE_EXACT_ALARM kullanılır.
+    - Pil optimizasyonundan doğrudan muafiyet isteği Play politikasına takılabilir; kullanıcı
+      genel pil optimizasyonu ayar ekranına yönlendirilir.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission
+        android:name="android.permission.USE_EXACT_ALARM"
+        tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"
+        tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.SCHEDULE_EXACT_ALARM"
+        tools:remove="android:maxSdkVersion" />
+</manifest>

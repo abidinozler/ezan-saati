@@ -90,6 +90,8 @@
     <string name="action_grant_notifications">Allow notifications</string>
     <string name="settings_battery_hint">Some phones delay notifications to save battery. Turn off battery optimization for on-time notifications.</string>
     <string name="action_disable_battery_optimization">Turn off battery optimization</string>
+    <string name="settings_exact_alarm_hint">Exact alarms are off, so adhan notifications may be late. Allow \"Alarms &amp; reminders\" for on-time notifications.</string>
+    <string name="action_allow_exact_alarms">Allow alarms &amp; reminders</string>
     <string name="settings_lock_screen">Lock screen</string>
     <string name="settings_lock_screen_countdown">Show countdown</string>
     <string name="settings_lock_screen_hint">Time left until the next prayer and today\'s times on the lock screen and in the notification shade. Silent.</string>

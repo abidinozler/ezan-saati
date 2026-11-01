@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.plugin.compose")
@@ -28,7 +30,23 @@ android {
             keyAlias = "androiddebugkey"
             keyPassword = "android"
         }
+        // Play Console'a yüklenen paketin anahtarı (Play, uygulamayı kendi anahtarıyla yeniden imzalar).
+        // Bilgiler keystore/upload.properties'te; dosya yoksa play sürümü de ezan anahtarıyla imzalanır.
+        val uploadProps = rootProject.file("keystore/upload.properties")
+        if (uploadProps.exists()) {
+            val props = Properties().apply { uploadProps.inputStream().use(::load) }
+            create("upload") {
+                storeFile = rootProject.file("keystore/" + props.getProperty("storeFile"))
+                storePassword = props.getProperty("storePassword")
+                keyAlias = props.getProperty("keyAlias")
+                keyPassword = props.getProperty("keyPassword")
+            }
+        }
     }
+
+    // Varsayılan anahtar; play sürümü kendi flavor'ında upload anahtarını seçer.
+    // (Build type'ta signingConfig verilirse flavor'dakini ezdiği için orada verilmez.)
+    defaultConfig.signingConfig = signingConfigs.getByName("ezan")
 
     buildTypes {
         debug {
@@ -36,7 +54,21 @@ android {
         }
         release {
             isMinifyEnabled = false
-            signingConfig = signingConfigs.getByName("ezan")
+        }
+    }
+
+    // github: APK olarak GitHub'da yayınlanan, telefona elle/Obtainium ile kurulan sürüm.
+    // play: Play Store kurallarına uygun sürüm (izin farkları src/play/AndroidManifest.xml'de).
+    flavorDimensions += "dagitim"
+    productFlavors {
+        create("github") {
+            dimension = "dagitim"
+            buildConfigField("boolean", "PLAY_STORE", "false")
+        }
+        create("play") {
+            dimension = "dagitim"
+            buildConfigField("boolean", "PLAY_STORE", "true")
+            signingConfigs.findByName("upload")?.let { signingConfig = it }
         }
     }
 
@@ -46,6 +78,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 

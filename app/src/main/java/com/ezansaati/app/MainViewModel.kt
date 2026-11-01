@@ -1,6 +1,8 @@
 package com.ezansaati.app
 
+import android.app.AlarmManager
 import android.app.Application
+import android.os.Build
 import android.os.PowerManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -37,6 +39,7 @@ data class UiState(
     val asrMethod: AsrMethod = AsrMethod.SHAFII,
     val hasNotificationPermission: Boolean = true,
     val ignoresBatteryOptimization: Boolean = true,
+    val canScheduleExactAlarms: Boolean = true,
     val isLocating: Boolean = false,
     val message: String? = null,
 )
@@ -71,6 +74,8 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                 hasNotificationPermission = PrayerNotifications.hasPermission(app),
                 ignoresBatteryOptimization = app.getSystemService(PowerManager::class.java)
                     .isIgnoringBatteryOptimizations(app.packageName),
+                canScheduleExactAlarms = Build.VERSION.SDK_INT < Build.VERSION_CODES.S ||
+                    app.getSystemService(AlarmManager::class.java).canScheduleExactAlarms(),
             )
         }
         AlarmScheduler.scheduleNext(app)

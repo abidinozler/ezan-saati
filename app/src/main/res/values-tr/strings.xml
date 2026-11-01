@@ -87,6 +87,8 @@
     <string name="action_grant_notifications">Bildirim izni ver</string>
     <string name="settings_battery_hint">Bazı telefonlar pil tasarrufu için bildirimleri geciktirir. Zamanında bildirim için pil optimizasyonunu kapatın.</string>
     <string name="action_disable_battery_optimization">Pil optimizasyonunu kapat</string>
+    <string name="settings_exact_alarm_hint">Tam zamanlı alarmlar kapalı; ezan bildirimleri gecikebilir. Zamanında bildirim için \"Alarm ve hatırlatıcılar\" iznini verin.</string>
+    <string name="action_allow_exact_alarms">Alarm ve hatırlatıcılara izin ver</string>
     <string name="settings_lock_screen">Kilit ekranı</string>
     <string name="settings_lock_screen_countdown">Geri sayımı göster</string>
     <string name="settings_lock_screen_hint">Kilit ekranında ve bildirim panelinde sıradaki vakte kalan süre ile günün vakitleri. Sessizdir.</string>

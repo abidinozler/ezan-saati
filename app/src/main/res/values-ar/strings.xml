@@ -87,6 +87,8 @@
     <string name="action_grant_notifications">السماح بالإشعارات</string>
     <string name="settings_battery_hint">بعض الهواتف تؤخر الإشعارات لتوفير البطارية. أوقف تحسين البطارية لتصلك الإشعارات في وقتها.</string>
     <string name="action_disable_battery_optimization">إيقاف تحسين البطارية</string>
+    <string name="settings_exact_alarm_hint">المنبهات الدقيقة متوقفة، لذا قد تتأخر إشعارات الأذان. اسمح بـ «المنبهات والتذكيرات» لتصلك في وقتها.</string>
+    <string name="action_allow_exact_alarms">السماح بالمنبهات والتذكيرات</string>
     <string name="settings_lock_screen">شاشة القفل</string>
     <string name="settings_lock_screen_countdown">إظهار العد التنازلي</string>
     <string name="settings_lock_screen_hint">الوقت المتبقي حتى الصلاة التالية ومواقيت اليوم على شاشة القفل وفي لوحة الإشعارات. بدون صوت.</string>

@@ -1,0 +1,11 @@
+Ezan Saati, namaz vakitlerini tamamen internetsiz hesaplayan sade ve şık bir uygulamadır.
+
+• Diyanet yöntemiyle vakitler; MWL, ISNA, Mısır, Karaçi ve Ümmü'l-Kura yöntemleri de seçilebilir. Hanefi ikindi desteği.
+• Sıradaki vakte canlı geri sayım: uygulamada, ana ekran widget'ında ve kilit ekranında.
+• Vakit bazlı ezan bildirimleri; telefon yeniden başlasa da kendini kurar.
+• Kıble pusulası: manyetik sapma düzeltmeli, kıbleye dönünce titreşir.
+• Ay evresi ve Hicri tarih.
+• Vakte göre renk değiştiren gökyüzü teması.
+• GPS ile ya da 81 il listesinden konum seçimi; resmî takvimle fark varsa dakika ayarı.
+
+Reklam yok, takip yok, internet izni yok. Konumunuz yalnızca cihazınızda kalır.

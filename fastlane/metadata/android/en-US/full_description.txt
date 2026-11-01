@@ -1,0 +1,11 @@
+Ezan Saati is a clean, beautiful prayer times app that works completely offline.
+
+• Calculation methods: Diyanet, Muslim World League, ISNA, Egypt, Karachi and Umm al-Qura — chosen automatically for your location. Hanafi asr supported.
+• Live countdown to the next prayer in the app, on the home-screen widget and on the lock screen.
+• Per-prayer adhan notifications that survive reboots.
+• Qibla compass with magnetic declination correction; vibrates when you face the qibla.
+• Moon phase and Hijri date.
+• A sky theme that changes colour through the day.
+• Location by GPS or from a city list; fine-tune each prayer by minutes to match your local calendar.
+
+No ads, no tracking, no internet permission. Your location never leaves your device.
