@@ -10,7 +10,8 @@ NOTES="${1:-Yeni sürüm}"
 : "${GITHUB_TOKEN:?GITHUB_TOKEN gerekli}"
 
 cd "$(dirname "$0")"
-export JAVA_HOME="${JAVA_HOME:-/c/Program Files/Android/Android Studio/jbr}"
+# Sistemdeki JAVA_HOME eski bir Java olabilir; Gradle 9 için Android Studio'nun JBR'si kullanılır.
+export JAVA_HOME="${EZAN_JAVA_HOME:-/c/Program Files/Android/Android Studio/jbr}"
 ./gradlew assembleDebug testDebugUnitTest -q
 
 APK="$LOCALAPPDATA/EzanSaatiBuild/app/outputs/apk/debug/app-debug.apk"
