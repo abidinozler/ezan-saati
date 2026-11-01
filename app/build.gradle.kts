@@ -67,6 +67,8 @@ android {
         }
         create("play") {
             dimension = "dagitim"
+            // com.ezansaati.app Play'de başka bir geliştiricinin uygulamasına ait.
+            applicationId = "com.abidinozler.ezansaati"
             buildConfigField("boolean", "PLAY_STORE", "true")
             signingConfigs.findByName("upload")?.let { signingConfig = it }
         }
