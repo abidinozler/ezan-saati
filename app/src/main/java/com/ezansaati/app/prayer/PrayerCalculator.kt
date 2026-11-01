@@ -16,26 +16,13 @@ import kotlin.math.sin
 import kotlin.math.tan
 
 /**
- * Astronomik namaz vakti hesabı (PrayTimes.org algoritması), Diyanet parametreleriyle:
- * imsak 18°, yatsı 17°, ikindi Şafii (gölge = 1 boy) ve Diyanet temkin süreleri.
+ * Astronomik namaz vakti hesabı (PrayTimes.org algoritması). Yöntem (açılar, temkin) ve
+ * ikindi hesabı seçilebilir; varsayılan Diyanet: imsak 18°, yatsı 17°, ikindi Şafii.
  * İnternet gerektirmez.
  */
 object PrayerCalculator {
 
-    private const val FAJR_ANGLE = 18.0
-    private const val ISHA_ANGLE = 17.0
     private const val SUNRISE_ANGLE = 0.833 // atmosferik kırılma + güneşin yarıçapı
-    private const val ASR_SHADOW_FACTOR = 1.0
-
-    /** Diyanet temkin süreleri (dakika). */
-    val DIYANET_TEMKIN: Map<Prayer, Int> = mapOf(
-        Prayer.IMSAK to 0,
-        Prayer.GUNES to -7,
-        Prayer.OGLE to 5,
-        Prayer.IKINDI to 4,
-        Prayer.AKSAM to 7,
-        Prayer.YATSI to 0,
-    )
 
     private val INITIAL_GUESS = doubleArrayOf(5.0, 6.0, 12.0, 13.0, 18.0, 18.0)
 
@@ -45,6 +32,8 @@ object PrayerCalculator {
         longitude: Double,
         zone: ZoneId = ZoneId.systemDefault(),
         userOffsets: Map<Prayer, Int> = emptyMap(),
+        method: CalculationMethod = CalculationMethod.DIYANET,
+        asr: AsrMethod = AsrMethod.SHAFII,
     ): PrayerTimes {
         val jDate = julianDate(date) - longitude / (15 * 24)
 
@@ -53,25 +42,27 @@ object PrayerCalculator {
         repeat(2) {
             val h = DoubleArray(6) { i -> if (t[i].isNaN()) INITIAL_GUESS[i] else t[i] }
             t = doubleArrayOf(
-                sunAngleTime(jDate, latitude, FAJR_ANGLE, h[0], counterClockwise = true),
+                sunAngleTime(jDate, latitude, method.fajrAngle, h[0], counterClockwise = true),
                 sunAngleTime(jDate, latitude, SUNRISE_ANGLE, h[1], counterClockwise = true),
                 midDay(jDate, h[2]),
-                asrTime(jDate, latitude, ASR_SHADOW_FACTOR, h[3]),
+                asrTime(jDate, latitude, asr.shadowFactor, h[3]),
                 sunAngleTime(jDate, latitude, SUNRISE_ANGLE, h[4], counterClockwise = false),
-                sunAngleTime(jDate, latitude, ISHA_ANGLE, h[5], counterClockwise = false),
+                method.ishaAngle?.let { sunAngleTime(jDate, latitude, it, h[5], counterClockwise = false) }
+                    ?: Double.NaN,
             )
         }
+        method.ishaMinutesAfterMaghrib?.let { t[5] = t[4] + it / 60.0 }
 
-        // Yüksek enlemlerde güneş 18°/17° altına inmiyorsa: gecenin açıya oranlı bir kısmı.
+        // Yüksek enlemlerde güneş gereken açının altına inmiyorsa: gecenin açıya oranlı bir kısmı.
         val night = 24 - (t[4] - t[1])
-        if (t[0].isNaN()) t[0] = t[1] - night * FAJR_ANGLE / 60
-        if (t[5].isNaN()) t[5] = t[4] + night * ISHA_ANGLE / 60
+        if (t[0].isNaN()) t[0] = t[1] - night * method.fajrAngle / 60
+        if (t[5].isNaN()) t[5] = t[4] + night * (method.ishaAngle ?: 18.0) / 60
 
         val utcMidnight = date.atStartOfDay(ZoneOffset.UTC).toInstant()
         val times = Prayer.entries.associateWith { prayer ->
             val utcHours = t[prayer.ordinal] - longitude / 15
             val minutes = utcHours * 60 +
-                DIYANET_TEMKIN.getValue(prayer) +
+                (method.temkin[prayer] ?: 0) +
                 (userOffsets[prayer] ?: 0)
             val instant: Instant = utcMidnight.plusSeconds(minutes.roundToLong() * 60)
             instant.atZone(zone)

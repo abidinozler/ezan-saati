@@ -32,26 +32,29 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.ezansaati.app.R
 import com.ezansaati.app.UiState
 import com.ezansaati.app.calendar.Lunar
+import com.ezansaati.app.prayer.Prayer
+import com.ezansaati.app.prayer.nextPrayer
+import com.ezansaati.app.ui.Texts
 import com.ezansaati.app.ui.decor.MoonPhase
 import com.ezansaati.app.ui.theme.Glass
 import com.ezansaati.app.ui.theme.Gold
-import com.ezansaati.app.prayer.Prayer
-import com.ezansaati.app.prayer.nextPrayer
 import kotlinx.coroutines.delay
 import java.time.Duration
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.Locale
 
-private val TURKISH = Locale.forLanguageTag("tr-TR")
-private val DATE_FORMAT = DateTimeFormatter.ofPattern("d MMMM yyyy, EEEE", TURKISH)
-private val TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm")
+private val TIME_FORMAT = Texts.TIME
 
 @Composable
 fun HomeScreen(
@@ -90,7 +93,9 @@ fun HomeScreen(
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         val moonAge = Lunar.moonAgeDays(now.toInstant())
-        val hijri = remember(currentDate) { Lunar.hijriDate(currentDate) }
+        val context = LocalContext.current
+        val hijri = remember(currentDate) { Texts.hijriDate(context, currentDate) }
+        val dateFormat = remember { DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).withLocale(Locale.getDefault()) }
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.weight(1f)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -99,7 +104,7 @@ fun HomeScreen(
                     Text(location.name, style = MaterialTheme.typography.titleLarge)
                 }
                 Text(
-                    now.format(DATE_FORMAT),
+                    now.format(dateFormat),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -110,7 +115,7 @@ fun HomeScreen(
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 MoonPhase(moonAge, Modifier.size(56.dp))
                 Text(
-                    Lunar.phaseName(moonAge),
+                    stringResource(Lunar.phase(moonAge).nameRes),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -126,10 +131,10 @@ fun HomeScreen(
                 modifier = Modifier.fillMaxWidth().padding(vertical = 24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text("${next.next.dativeName} kalan süre", style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(next.next.remainingRes), style = MaterialTheme.typography.titleMedium)
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    "%02d:%02d:%02d".format(remaining / 3600, remaining % 3600 / 60, remaining % 60),
+                    "%02d:%02d:%02d".format(Locale.ROOT, remaining / 3600, remaining % 3600 / 60, remaining % 60),
                     style = MaterialTheme.typography.displayMedium,
                     fontFamily = FontFamily.Monospace,
                     fontWeight = FontWeight.Bold,
@@ -137,7 +142,7 @@ fun HomeScreen(
                 )
                 Spacer(Modifier.height(4.dp))
                 Text(
-                    "${next.next.displayName}: ${next.nextTime.format(TIME_FORMAT)}",
+                    "${stringResource(next.next.nameRes)}: ${next.nextTime.format(TIME_FORMAT)}",
                     style = MaterialTheme.typography.bodyLarge,
                 )
             }
@@ -147,7 +152,7 @@ fun HomeScreen(
             Column(Modifier.padding(vertical = 8.dp)) {
                 Prayer.entries.forEach { prayer ->
                     PrayerRow(
-                        name = prayer.displayName,
+                        name = stringResource(prayer.nameRes),
                         time = today[prayer].format(TIME_FORMAT),
                         isCurrent = prayer == next.current && currentDate == today.date,
                     )
@@ -156,7 +161,7 @@ fun HomeScreen(
         }
 
         Text(
-            "Diyanet yöntemiyle hesaplanmıştır. Takvimle fark varsa Ayarlar'dan dakika ayarı yapabilirsiniz.",
+            stringResource(R.string.home_method_note, stringResource(state.method.nameRes)),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -206,11 +211,11 @@ private fun NoLocation(onGoToSettings: () -> Unit) {
         )
         Spacer(Modifier.height(16.dp))
         Text(
-            "Vakitleri hesaplamak için konumunuzu belirleyin.",
+            stringResource(R.string.home_no_location),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.titleMedium,
         )
         Spacer(Modifier.height(16.dp))
-        Button(onClick = onGoToSettings) { Text("Konum seç") }
+        Button(onClick = onGoToSettings) { Text(stringResource(R.string.action_choose_location)) }
     }
 }

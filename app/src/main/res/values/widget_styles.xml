@@ -24,6 +24,4 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
     </style>
-
-    <string name="widget_description">Sıradaki vakte geri sayım ve günün vakitleri</string>
 </resources>

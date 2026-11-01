@@ -1,20 +1,22 @@
 package com.ezansaati.app.prayer
 
+import androidx.annotation.StringRes
+import com.ezansaati.app.R
 import java.time.LocalDate
 import java.time.ZonedDateTime
 
 enum class Prayer(
-    val displayName: String,
-    /** "Akşam'a kalan süre" gibi ifadeler için yönelme hâli. */
-    val dativeName: String,
+    @StringRes val nameRes: Int,
+    /** "Akşam'a kalan" gibi geri sayım başlığı; dillere göre çekim farklı olduğu için ayrı metin. */
+    @StringRes val remainingRes: Int,
     val notifyByDefault: Boolean,
 ) {
-    IMSAK("İmsak", "İmsak'a", true),
-    GUNES("Güneş", "Güneş'e", false),
-    OGLE("Öğle", "Öğle'ye", true),
-    IKINDI("İkindi", "İkindi'ye", true),
-    AKSAM("Akşam", "Akşam'a", true),
-    YATSI("Yatsı", "Yatsı'ya", true),
+    IMSAK(R.string.prayer_imsak, R.string.remaining_imsak, true),
+    GUNES(R.string.prayer_gunes, R.string.remaining_gunes, false),
+    OGLE(R.string.prayer_ogle, R.string.remaining_ogle, true),
+    IKINDI(R.string.prayer_ikindi, R.string.remaining_ikindi, true),
+    AKSAM(R.string.prayer_aksam, R.string.remaining_aksam, true),
+    YATSI(R.string.prayer_yatsi, R.string.remaining_yatsi, true),
 }
 
 data class PrayerTimes(

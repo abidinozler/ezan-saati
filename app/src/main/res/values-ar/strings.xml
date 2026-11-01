@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_times">المواقيت</string>
+    <string name="tab_qibla">القبلة</string>
+    <string name="tab_settings">الإعدادات</string>
+
+    <string name="prayer_imsak">الفجر</string>
+    <string name="prayer_gunes">الشروق</string>
+    <string name="prayer_ogle">الظهر</string>
+    <string name="prayer_ikindi">العصر</string>
+    <string name="prayer_aksam">المغرب</string>
+    <string name="prayer_yatsi">العشاء</string>
+
+    <string name="remaining_imsak">المتبقي حتى الفجر</string>
+    <string name="remaining_gunes">المتبقي حتى الشروق</string>
+    <string name="remaining_ogle">المتبقي حتى الظهر</string>
+    <string name="remaining_ikindi">المتبقي حتى العصر</string>
+    <string name="remaining_aksam">المتبقي حتى المغرب</string>
+    <string name="remaining_yatsi">المتبقي حتى العشاء</string>
+
+    <string name="moon_new">محاق</string>
+    <string name="moon_waxing_crescent">هلال متزايد</string>
+    <string name="moon_first_quarter">تربيع أول</string>
+    <string name="moon_waxing_gibbous">أحدب متزايد</string>
+    <string name="moon_full">بدر</string>
+    <string name="moon_waning_gibbous">أحدب متناقص</string>
+    <string name="moon_last_quarter">تربيع ثانٍ</string>
+    <string name="moon_waning_crescent">هلال متناقص</string>
+
+    <string name="hijri_date">%1$d %2$s %3$d هـ</string>
+    <string-array name="hijri_months">
+        <item>محرم</item>
+        <item>صفر</item>
+        <item>ربيع الأول</item>
+        <item>ربيع الآخر</item>
+        <item>جمادى الأولى</item>
+        <item>جمادى الآخرة</item>
+        <item>رجب</item>
+        <item>شعبان</item>
+        <item>رمضان</item>
+        <item>شوال</item>
+        <item>ذو القعدة</item>
+        <item>ذو الحجة</item>
+    </string-array>
+
+    <string name="method_auto">تلقائي: %s</string>
+    <string name="method_diyanet">رئاسة الشؤون الدينية (تركيا)</string>
+    <string name="method_mwl">رابطة العالم الإسلامي</string>
+    <string name="method_isna">الجمعية الإسلامية لأمريكا الشمالية</string>
+    <string name="method_egypt">الهيئة المصرية العامة للمساحة</string>
+    <string name="method_karachi">جامعة العلوم الإسلامية بكراتشي</string>
+    <string name="method_umm_al_qura">أم القرى (مكة المكرمة)</string>
+    <string name="asr_shafii">الجمهور (الشافعي والمالكي والحنبلي)</string>
+    <string name="asr_hanafi">الحنفي</string>
+
+    <string name="home_method_note">حُسبت المواقيت وفق طريقة %s. إن اختلفت عن التقويم المحلي فاضبط الدقائق من الإعدادات.</string>
+    <string name="home_no_location">حدّد موقعك لحساب مواقيت الصلاة.</string>
+    <string name="action_choose_location">اختر الموقع</string>
+
+    <string name="qibla_no_location">حدّد موقعك من الإعدادات أولاً لمعرفة اتجاه القبلة.</string>
+    <string name="qibla_angle">زاوية القبلة: %s°</string>
+    <string name="qibla_distance">باتجاه عقارب الساعة من الشمال الحقيقي · %s كم إلى الكعبة</string>
+    <string name="qibla_no_sensor">لا يوجد مستشعر بوصلة في هذا الجهاز. يمكنك استخدام زاوية القبلة مع خريطة أو بوصلة عادية.</string>
+    <string name="qibla_starting">جارٍ تشغيل البوصلة…</string>
+    <string name="qibla_aligned">✓ أنت متجه نحو القبلة</string>
+    <string name="qibla_turn_right">استدر يمينًا: %d°</string>
+    <string name="qibla_turn_left">استدر يسارًا: %d°</string>
+    <string name="qibla_low_accuracy">دقة البوصلة منخفضة. حرّك الهاتف على شكل الرقم 8 عدة مرات لمعايرتها.</string>
+    <string name="qibla_hint">أمسك الهاتف بشكل أفقي وابتعد عن المغناطيس والمعادن والأجهزة الإلكترونية.</string>
+    <string name="compass_n">ش</string>
+    <string name="compass_e">ق</string>
+    <string name="compass_s">ج</string>
+    <string name="compass_w">غ</string>
+
+    <string name="msg_location_failed">تعذّر تحديد الموقع. تأكد من تشغيل GPS أو اختر مدينة.</string>
+    <string name="msg_location_updated">تم تحديث الموقع: بالقرب من %s</string>
+    <string name="msg_location_denied">لم يُمنح إذن الموقع. يمكنك اختيار مدينة من القائمة.</string>
+    <string name="location_gps_city">%s (GPS)</string>
+
+    <string name="settings_location">الموقع</string>
+    <string name="settings_no_location">لم يُحدَّد موقع</string>
+    <string name="action_use_my_location">استخدم موقعي</string>
+    <string name="action_choose_city">اختر مدينة</string>
+    <string name="settings_method">طريقة الحساب</string>
+    <string name="settings_asr">وقت العصر</string>
+    <string name="settings_notifications">إشعارات الأذان</string>
+    <string name="action_grant_notifications">السماح بالإشعارات</string>
+    <string name="settings_battery_hint">بعض الهواتف تؤخر الإشعارات لتوفير البطارية. أوقف تحسين البطارية لتصلك الإشعارات في وقتها.</string>
+    <string name="action_disable_battery_optimization">إيقاف تحسين البطارية</string>
+    <string name="settings_lock_screen">شاشة القفل</string>
+    <string name="settings_lock_screen_countdown">إظهار العد التنازلي</string>
+    <string name="settings_lock_screen_hint">الوقت المتبقي حتى الصلاة التالية ومواقيت اليوم على شاشة القفل وفي لوحة الإشعارات. بدون صوت.</string>
+    <string name="settings_needs_notification_permission">يتطلب ذلك إذن الإشعارات.</string>
+    <string name="settings_offsets">ضبط المواقيت (بالدقائق)</string>
+    <string name="settings_offsets_hint">قارن بالتقويم المحلي وصحّح أي فرق من هنا.</string>
+    <string name="action_close">إغلاق</string>
+    <string name="action_search">بحث</string>
+
+    <string name="channel_prayer">مواقيت الصلاة</string>
+    <string name="channel_prayer_description">إشعار عند دخول وقت الصلاة</string>
+    <string name="notif_sunrise_title">أشرقت الشمس</string>
+    <string name="notif_sunrise_text">انتهى وقت صلاة الفجر (%s)</string>
+    <string name="notif_prayer_title">صلاة %s</string>
+    <string name="notif_prayer_text">حان الآن وقت صلاة %1$s (%2$s)</string>
+    <string name="channel_countdown">العد التنازلي على شاشة القفل</string>
+    <string name="channel_countdown_description">يعرض الوقت المتبقي حتى الصلاة التالية على شاشة القفل</string>
+
+    <string name="widget_label">مواقيت الصلاة</string>
+    <string name="widget_description">عد تنازلي للصلاة التالية ومواقيت اليوم</string>
+    <string name="widget_empty">انقر لاختيار الموقع</string>
+</resources>

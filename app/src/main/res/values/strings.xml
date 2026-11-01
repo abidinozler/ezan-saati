@@ -1,3 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Varsayılan (desteklenmeyen dillerde de kullanılan) metinler: İngilizce. Türkçe: values-tr -->
 <resources>
-    <string name="app_name">Ezan Saati</string>
+    <string name="app_name" translatable="false">Ezan Saati</string>
+
+    <string name="tab_times">Times</string>
+    <string name="tab_qibla">Qibla</string>
+    <string name="tab_settings">Settings</string>
+
+    <string name="prayer_imsak">Fajr</string>
+    <string name="prayer_gunes">Sunrise</string>
+    <string name="prayer_ogle">Dhuhr</string>
+    <string name="prayer_ikindi">Asr</string>
+    <string name="prayer_aksam">Maghrib</string>
+    <string name="prayer_yatsi">Isha</string>
+
+    <string name="remaining_imsak">Until Fajr</string>
+    <string name="remaining_gunes">Until sunrise</string>
+    <string name="remaining_ogle">Until Dhuhr</string>
+    <string name="remaining_ikindi">Until Asr</string>
+    <string name="remaining_aksam">Until Maghrib</string>
+    <string name="remaining_yatsi">Until Isha</string>
+
+    <string name="moon_new">New moon</string>
+    <string name="moon_waxing_crescent">Waxing crescent</string>
+    <string name="moon_first_quarter">First quarter</string>
+    <string name="moon_waxing_gibbous">Waxing gibbous</string>
+    <string name="moon_full">Full moon</string>
+    <string name="moon_waning_gibbous">Waning gibbous</string>
+    <string name="moon_last_quarter">Last quarter</string>
+    <string name="moon_waning_crescent">Waning crescent</string>
+
+    <string name="hijri_date">%1$d %2$s %3$d AH</string>
+    <string-array name="hijri_months">
+        <item>Muharram</item>
+        <item>Safar</item>
+        <item>Rabi al-Awwal</item>
+        <item>Rabi al-Thani</item>
+        <item>Jumada al-Awwal</item>
+        <item>Jumada al-Thani</item>
+        <item>Rajab</item>
+        <item>Sha\'ban</item>
+        <item>Ramadan</item>
+        <item>Shawwal</item>
+        <item>Dhu al-Qadah</item>
+        <item>Dhu al-Hijjah</item>
+    </string-array>
+
+    <string name="method_auto">Automatic: %s</string>
+    <string name="method_diyanet">Diyanet (Türkiye)</string>
+    <string name="method_mwl">Muslim World League</string>
+    <string name="method_isna">ISNA (North America)</string>
+    <string name="method_egypt">Egyptian General Authority</string>
+    <string name="method_karachi">University of Karachi</string>
+    <string name="method_umm_al_qura">Umm al-Qura (Makkah)</string>
+    <string name="asr_shafii">Standard (Shafi\'i, Maliki, Hanbali)</string>
+    <string name="asr_hanafi">Hanafi</string>
+
+    <string name="home_method_note">Calculated with the %s method. If it differs from your local calendar, adjust the minutes in Settings.</string>
+    <string name="home_no_location">Set your location to calculate prayer times.</string>
+    <string name="action_choose_location">Choose location</string>
+
+    <string name="qibla_no_location">Set your location in Settings first to see the qibla direction.</string>
+    <string name="qibla_angle">Qibla angle: %s°</string>
+    <string name="qibla_distance">Clockwise from true north · %s km to the Kaaba</string>
+    <string name="qibla_no_sensor">No compass sensor found on this device. You can use the qibla angle with a map or a regular compass.</string>
+    <string name="qibla_starting">Starting compass…</string>
+    <string name="qibla_aligned">✓ You are facing the qibla</string>
+    <string name="qibla_turn_right">Turn right: %d°</string>
+    <string name="qibla_turn_left">Turn left: %d°</string>
+    <string name="qibla_low_accuracy">Compass accuracy is low. Calibrate it by moving the phone in a figure 8 a few times.</string>
+    <string name="qibla_hint">Hold the phone flat; keep away from magnets, metal objects and electronics.</string>
+    <string name="compass_n">N</string>
+    <string name="compass_e">E</string>
+    <string name="compass_s">S</string>
+    <string name="compass_w">W</string>
+
+    <string name="msg_location_failed">Could not get your location. Make sure GPS is on, or choose a city.</string>
+    <string name="msg_location_updated">Location updated: near %s</string>
+    <string name="msg_location_denied">Location permission denied. You can choose a city from the list.</string>
+    <string name="location_gps_city">%s (GPS)</string>
+
+    <string name="settings_location">Location</string>
+    <string name="settings_no_location">No location selected</string>
+    <string name="action_use_my_location">Use my location</string>
+    <string name="action_choose_city">Choose city</string>
+    <string name="settings_method">Calculation method</string>
+    <string name="settings_asr">Asr time</string>
+    <string name="settings_notifications">Adhan notifications</string>
+    <string name="action_grant_notifications">Allow notifications</string>
+    <string name="settings_battery_hint">Some phones delay notifications to save battery. Turn off battery optimization for on-time notifications.</string>
+    <string name="action_disable_battery_optimization">Turn off battery optimization</string>
+    <string name="settings_lock_screen">Lock screen</string>
+    <string name="settings_lock_screen_countdown">Show countdown</string>
+    <string name="settings_lock_screen_hint">Time left until the next prayer and today\'s times on the lock screen and in the notification shade. Silent.</string>
+    <string name="settings_needs_notification_permission">Notification permission is required for this.</string>
+    <string name="settings_offsets">Fine-tune times (minutes)</string>
+    <string name="settings_offsets_hint">Compare with your local calendar and correct any difference here.</string>
+    <string name="action_close">Close</string>
+    <string name="action_search">Search</string>
+
+    <string name="channel_prayer">Prayer times</string>
+    <string name="channel_prayer_description">Notification when a prayer time begins</string>
+    <string name="notif_sunrise_title">Sunrise</string>
+    <string name="notif_sunrise_text">The time for Fajr prayer has ended (%s)</string>
+    <string name="notif_prayer_title">%s time</string>
+    <string name="notif_prayer_text">It is time for %1$s (%2$s)</string>
+    <string name="channel_countdown">Lock screen countdown</string>
+    <string name="channel_countdown_description">Shows the time left until the next prayer on the lock screen</string>
+
+    <string name="widget_label">Prayer times</string>
+    <string name="widget_description">Countdown to the next prayer and today\'s times</string>
+    <string name="widget_empty">Tap to choose a location</string>
 </resources>

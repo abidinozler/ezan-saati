@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
@@ -35,6 +36,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -46,15 +48,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.ezansaati.app.MainViewModel
+import com.ezansaati.app.R
 import com.ezansaati.app.UiState
 import com.ezansaati.app.data.City
 import com.ezansaati.app.data.TURKEY_CITIES
+import com.ezansaati.app.prayer.AsrMethod
+import com.ezansaati.app.prayer.CalculationMethod
 import com.ezansaati.app.prayer.Prayer
 import java.text.Collator
 import java.util.Locale
@@ -66,11 +73,12 @@ fun SettingsScreen(state: UiState, viewModel: MainViewModel) {
     val context = LocalContext.current
     var showCityPicker by remember { mutableStateOf(false) }
 
+    val locationDenied = stringResource(R.string.msg_location_denied)
     val locationPermission = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
         if (granted) viewModel.useCurrentLocation()
-        else viewModel.showMessage("Konum izni verilmedi. Listeden şehir seçebilirsiniz.")
+        else viewModel.showMessage(locationDenied)
     }
     val notificationPermission = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -84,13 +92,13 @@ fun SettingsScreen(state: UiState, viewModel: MainViewModel) {
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         // ---- Konum ----
-        Section("Konum") {
+        Section(stringResource(R.string.settings_location)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Filled.LocationOn, null, tint = MaterialTheme.colorScheme.primary)
                 Spacer(Modifier.width(8.dp))
                 Text(
-                    state.location?.let { "${it.name}  (%.3f, %.3f)".format(it.latitude, it.longitude) }
-                        ?: "Konum seçilmedi",
+                    state.location?.let { "${it.name}  (%.3f, %.3f)".format(Locale.ROOT, it.latitude, it.longitude) }
+                        ?: stringResource(R.string.settings_no_location),
                     style = MaterialTheme.typography.bodyLarge,
                 )
             }
@@ -109,25 +117,52 @@ fun SettingsScreen(state: UiState, viewModel: MainViewModel) {
                         CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp)
                         Spacer(Modifier.width(8.dp))
                     }
-                    Text("Konumumu kullan")
+                    Text(stringResource(R.string.action_use_my_location))
                 }
-                OutlinedButton(onClick = { showCityPicker = true }) { Text("Şehir seç") }
+                OutlinedButton(onClick = { showCityPicker = true }) { Text(stringResource(R.string.action_choose_city)) }
+            }
+        }
+
+        // ---- Hesaplama yöntemi ----
+        Section(stringResource(R.string.settings_method)) {
+            val suggested = state.location?.let { CalculationMethod.suggestFor(it.latitude, it.longitude) }
+                ?: CalculationMethod.DIYANET
+            OptionRow(
+                label = stringResource(R.string.method_auto, stringResource(suggested.nameRes)),
+                selected = state.methodChoice == null,
+                onClick = { viewModel.setMethodChoice(null) },
+            )
+            CalculationMethod.entries.forEach { method ->
+                OptionRow(
+                    label = stringResource(method.nameRes),
+                    selected = state.methodChoice == method,
+                    onClick = { viewModel.setMethodChoice(method) },
+                )
+            }
+            HorizontalDivider()
+            Text(stringResource(R.string.settings_asr), style = MaterialTheme.typography.bodyLarge)
+            AsrMethod.entries.forEach { asr ->
+                OptionRow(
+                    label = stringResource(asr.nameRes),
+                    selected = state.asrMethod == asr,
+                    onClick = { viewModel.setAsrMethod(asr) },
+                )
             }
         }
 
         // ---- Bildirimler ----
-        Section("Ezan bildirimleri") {
+        Section(stringResource(R.string.settings_notifications)) {
             if (!state.hasNotificationPermission && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 FilledTonalButton(onClick = {
                     notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
-                }) { Text("Bildirim izni ver") }
+                }) { Text(stringResource(R.string.action_grant_notifications)) }
             }
             Prayer.entries.forEach { prayer ->
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text(prayer.displayName, Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge)
+                    Text(stringResource(prayer.nameRes), Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge)
                     Switch(
                         checked = state.notificationsEnabled[prayer] == true,
                         onCheckedChange = { viewModel.setNotificationEnabled(prayer, it) },
@@ -137,7 +172,7 @@ fun SettingsScreen(state: UiState, viewModel: MainViewModel) {
             if (!state.ignoresBatteryOptimization) {
                 HorizontalDivider()
                 Text(
-                    "Bazı telefonlar pil tasarrufu için bildirimleri geciktirir. Zamanında bildirim için pil optimizasyonunu kapatın.",
+                    stringResource(R.string.settings_battery_hint),
                     style = MaterialTheme.typography.bodySmall,
                 )
                 OutlinedButton(onClick = {
@@ -147,20 +182,20 @@ fun SettingsScreen(state: UiState, viewModel: MainViewModel) {
                             "package:${context.packageName}".toUri(),
                         )
                     )
-                }) { Text("Pil optimizasyonunu kapat") }
+                }) { Text(stringResource(R.string.action_disable_battery_optimization)) }
             }
         }
 
         // ---- Kilit ekranı ----
-        Section("Kilit ekranı") {
+        Section(stringResource(R.string.settings_lock_screen)) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Column(Modifier.weight(1f)) {
-                    Text("Geri sayımı göster", style = MaterialTheme.typography.bodyLarge)
+                    Text(stringResource(R.string.settings_lock_screen_countdown), style = MaterialTheme.typography.bodyLarge)
                     Text(
-                        "Kilit ekranında ve bildirim panelinde sıradaki vakte kalan süre ile günün vakitleri. Sessizdir.",
+                        stringResource(R.string.settings_lock_screen_hint),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -172,7 +207,7 @@ fun SettingsScreen(state: UiState, viewModel: MainViewModel) {
             }
             if (state.lockScreenCountdown && !state.hasNotificationPermission) {
                 Text(
-                    "Görünmesi için bildirim izni gerekir.",
+                    stringResource(R.string.settings_needs_notification_permission),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.error,
                 )
@@ -180,9 +215,9 @@ fun SettingsScreen(state: UiState, viewModel: MainViewModel) {
         }
 
         // ---- İnce ayar ----
-        Section("Vakit ince ayarı (dakika)") {
+        Section(stringResource(R.string.settings_offsets)) {
             Text(
-                "Diyanet takvimiyle karşılaştırın; fark varsa buradan düzeltin.",
+                stringResource(R.string.settings_offsets_hint),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -192,7 +227,7 @@ fun SettingsScreen(state: UiState, viewModel: MainViewModel) {
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text(prayer.displayName, Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge)
+                    Text(stringResource(prayer.nameRes), Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge)
                     TextButton(onClick = { viewModel.changeOffset(prayer, -1) }) { Text("−", style = MaterialTheme.typography.titleLarge) }
                     Text(
                         if (offset > 0) "+$offset" else "$offset",
@@ -228,6 +263,20 @@ private fun Section(title: String, content: @Composable () -> Unit) {
 }
 
 @Composable
+private fun OptionRow(label: String, selected: Boolean, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .selectable(selected = selected, onClick = onClick, role = Role.RadioButton),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        RadioButton(selected = selected, onClick = null)
+        Spacer(Modifier.width(8.dp))
+        Text(label, style = MaterialTheme.typography.bodyMedium)
+    }
+}
+
+@Composable
 private fun CityPickerDialog(onDismiss: () -> Unit, onSelect: (City) -> Unit) {
     var query by remember { mutableStateOf("") }
     val collator = remember { Collator.getInstance(TURKISH) }
@@ -241,14 +290,14 @@ private fun CityPickerDialog(onDismiss: () -> Unit, onSelect: (City) -> Unit) {
     AlertDialog(
         onDismissRequest = onDismiss,
         confirmButton = {},
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Kapat") } },
-        title = { Text("Şehir seç") },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_close)) } },
+        title = { Text(stringResource(R.string.action_choose_city)) },
         text = {
             Column {
                 OutlinedTextField(
                     value = query,
                     onValueChange = { query = it },
-                    placeholder = { Text("Ara") },
+                    placeholder = { Text(stringResource(R.string.action_search)) },
                     leadingIcon = { Icon(Icons.Filled.Search, null) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),

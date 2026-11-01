@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="Konum seçmek için dokunun"
+        android:text="@string/widget_empty"
         android:textColor="#FFFFFF"
         android:textSize="14sp"
         android:visibility="gone" />
@@ -43,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="İstanbul"
+                    tools:text="İstanbul"
                     android:textColor="#D9FFFFFF"
                     android:textSize="12sp" />
 
@@ -53,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="10 Cemaziyelevvel 1448"
+                    tools:text="10 Cemaziyelevvel 1448"
                     android:textColor="#E8C66A"
                     android:textSize="11sp" />
 
@@ -62,7 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
-                    android:text="Akşam'a kalan · 18:07"
+                    tools:text="Akşam'a kalan · 18:07"
                     android:textColor="#FFFFFF"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -72,7 +73,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginEnd="8dp"
-                android:contentDescription="Ay evresi" />
+                android:importantForAccessibility="no" />
 
             <Chronometer
                 android:id="@+id/widget_countdown"
@@ -92,28 +93,28 @@
             <LinearLayout
                 android:id="@+id/col_imsak"
                 style="@style/WidgetColumn">
-                <TextView style="@style/WidgetName" android:text="İmsak" />
+                <TextView style="@style/WidgetName" android:text="@string/prayer_imsak" />
                 <TextView android:id="@+id/time_imsak" style="@style/WidgetTime" android:text="06:02" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/col_gunes"
                 style="@style/WidgetColumn">
-                <TextView style="@style/WidgetName" android:text="Güneş" />
+                <TextView style="@style/WidgetName" android:text="@string/prayer_gunes" />
                 <TextView android:id="@+id/time_gunes" style="@style/WidgetTime" android:text="07:28" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/col_ogle"
                 style="@style/WidgetColumn">
-                <TextView style="@style/WidgetName" android:text="Öğle" />
+                <TextView style="@style/WidgetName" android:text="@string/prayer_ogle" />
                 <TextView android:id="@+id/time_ogle" style="@style/WidgetTime" android:text="12:53" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/col_ikindi"
                 style="@style/WidgetColumn">
-                <TextView style="@style/WidgetName" android:text="İkindi" />
+                <TextView style="@style/WidgetName" android:text="@string/prayer_ikindi" />
                 <TextView android:id="@+id/time_ikindi" style="@style/WidgetTime" android:text="15:40" />
             </LinearLayout>
 
@@ -121,14 +122,14 @@
                 android:id="@+id/col_aksam"
                 style="@style/WidgetColumn"
                 android:background="@drawable/widget_highlight">
-                <TextView style="@style/WidgetName" android:text="Akşam" />
+                <TextView style="@style/WidgetName" android:text="@string/prayer_aksam" />
                 <TextView android:id="@+id/time_aksam" style="@style/WidgetTime" android:text="18:07" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/col_yatsi"
                 style="@style/WidgetColumn">
-                <TextView style="@style/WidgetName" android:text="Yatsı" />
+                <TextView style="@style/WidgetName" android:text="@string/prayer_yatsi" />
                 <TextView android:id="@+id/time_yatsi" style="@style/WidgetTime" android:text="19:28" />
             </LinearLayout>
         </LinearLayout>

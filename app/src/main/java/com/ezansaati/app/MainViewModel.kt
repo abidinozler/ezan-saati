@@ -11,6 +11,8 @@ import com.ezansaati.app.data.nearestCity
 import com.ezansaati.app.location.LocationProvider
 import com.ezansaati.app.notification.AlarmScheduler
 import com.ezansaati.app.notification.PrayerNotifications
+import com.ezansaati.app.prayer.AsrMethod
+import com.ezansaati.app.prayer.CalculationMethod
 import com.ezansaati.app.prayer.Prayer
 import com.ezansaati.app.prayer.PrayerTimes
 import com.ezansaati.app.widget.PrayerWidget
@@ -20,6 +22,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.util.Locale
 
 data class UiState(
     val location: SavedLocation? = null,
@@ -28,6 +31,10 @@ data class UiState(
     val notificationsEnabled: Map<Prayer, Boolean> = emptyMap(),
     val offsets: Map<Prayer, Int> = emptyMap(),
     val lockScreenCountdown: Boolean = true,
+    /** null: konuma göre otomatik */
+    val methodChoice: CalculationMethod? = null,
+    val method: CalculationMethod = CalculationMethod.DIYANET,
+    val asrMethod: AsrMethod = AsrMethod.SHAFII,
     val hasNotificationPermission: Boolean = true,
     val ignoresBatteryOptimization: Boolean = true,
     val isLocating: Boolean = false,
@@ -58,6 +65,9 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                 notificationsEnabled = Prayer.entries.associateWith(settings::isNotificationEnabled),
                 offsets = settings.offsets(),
                 lockScreenCountdown = settings.isLockScreenCountdownEnabled(),
+                methodChoice = settings.methodChoice(),
+                method = settings.method(),
+                asrMethod = settings.asrMethod(),
                 hasNotificationPermission = PrayerNotifications.hasPermission(app),
                 ignoresBatteryOptimization = app.getSystemService(PowerManager::class.java)
                     .isIgnoringBatteryOptimizations(app.packageName),
@@ -74,17 +84,18 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     /** Konum izni alındıktan sonra çağrılmalı. */
     fun useCurrentLocation() {
+        val app = getApplication<Application>()
         viewModelScope.launch {
             _state.update { it.copy(isLocating = true) }
             val location = locationProvider.currentLocation()
             if (location == null) {
-                showMessage("Konum alınamadı. GPS'in açık olduğundan emin olun veya şehir seçin.")
+                showMessage(app.getString(R.string.msg_location_failed))
             } else {
                 val city = nearestCity(location.latitude, location.longitude)
-                settings.saveLocation(
-                    SavedLocation("${city.name} (GPS)", location.latitude, location.longitude)
-                )
-                showMessage("Konum güncellendi: ${city.name} civarı")
+                val name = city?.let { app.getString(R.string.location_gps_city, it.name) }
+                    ?: "%.3f°, %.3f°".format(Locale.ROOT, location.latitude, location.longitude)
+                settings.saveLocation(SavedLocation(name, location.latitude, location.longitude))
+                showMessage(app.getString(R.string.msg_location_updated, city?.name ?: name))
             }
             _state.update { it.copy(isLocating = false) }
             refresh()
@@ -93,6 +104,16 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     fun setNotificationEnabled(prayer: Prayer, enabled: Boolean) {
         settings.setNotificationEnabled(prayer, enabled)
+        refresh()
+    }
+
+    fun setMethodChoice(method: CalculationMethod?) {
+        settings.setMethodChoice(method)
+        refresh()
+    }
+
+    fun setAsrMethod(asr: AsrMethod) {
+        settings.setAsrMethod(asr)
         refresh()
     }
 

@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
@@ -42,11 +43,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ezansaati.app.R
 import com.ezansaati.app.data.SavedLocation
 import com.ezansaati.app.qibla.QiblaCalculator
 import com.ezansaati.app.sensor.CompassReading
 import com.ezansaati.app.sensor.CompassSensor
 import com.ezansaati.app.ui.theme.Gold
+import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.roundToInt
@@ -58,7 +61,7 @@ private const val ALIGN_TOLERANCE = 3f
 fun QiblaScreen(location: SavedLocation?) {
     if (location == null) {
         Column(Modifier.fillMaxSize().padding(32.dp), verticalArrangement = Arrangement.Center) {
-            Text("Kıble yönü için önce Ayarlar'dan konum belirleyin.", textAlign = TextAlign.Center)
+            Text(stringResource(R.string.qibla_no_location), textAlign = TextAlign.Center)
         }
         return
     }
@@ -88,21 +91,21 @@ fun QiblaScreen(location: SavedLocation?) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        Text("Kıble açısı: %.1f°".format(qibla), style = MaterialTheme.typography.titleLarge)
+        Text(stringResource(R.string.qibla_angle, "%.1f".format(Locale.ROOT, qibla)), style = MaterialTheme.typography.titleLarge)
         Text(
-            "Gerçek kuzeyden saat yönünde · Kâbe'ye %,d km".format(distance.roundToInt()),
+            stringResource(R.string.qibla_distance, "%,d".format(distance.roundToInt())),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
 
         if (!compass.isAvailable) {
-            WarningCard("Bu cihazda pusula sensörü bulunamadı. Kıble açısını harita veya klasik bir pusulayla kullanabilirsiniz.")
+            WarningCard(stringResource(R.string.qibla_no_sensor))
             return@Column
         }
 
         val current = reading
         if (current == null) {
-            Text("Pusula başlatılıyor…")
+            Text(stringResource(R.string.qibla_starting))
             return@Column
         }
 
@@ -124,9 +127,9 @@ fun QiblaScreen(location: SavedLocation?) {
 
         Text(
             when {
-                aligned -> "✓ Kıbleye dönüksünüz"
-                diff > 0 -> "Sağa dönün: ${abs(diff).roundToInt()}°"
-                else -> "Sola dönün: ${abs(diff).roundToInt()}°"
+                aligned -> stringResource(R.string.qibla_aligned)
+                diff > 0 -> stringResource(R.string.qibla_turn_right, abs(diff).roundToInt())
+                else -> stringResource(R.string.qibla_turn_left, abs(diff).roundToInt())
             },
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold,
@@ -136,11 +139,11 @@ fun QiblaScreen(location: SavedLocation?) {
         if (current.accuracy == SensorManager.SENSOR_STATUS_UNRELIABLE ||
             current.accuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW
         ) {
-            WarningCard("Pusula hassasiyeti düşük. Telefonu havada birkaç kez 8 çizerek kalibre edin.")
+            WarningCard(stringResource(R.string.qibla_low_accuracy))
         }
 
         Text(
-            "Telefonu yatay tutun; mıknatıs, metal eşya ve elektronik cihazlardan uzak durun.",
+            stringResource(R.string.qibla_hint),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
@@ -156,6 +159,12 @@ private fun CompassDial(heading: Float, qibla: Float, aligned: Boolean, modifier
     val needleColor = if (aligned) MaterialTheme.colorScheme.primary else Gold
     val north = Color(0xFFD32F2F)
     val labelStyle = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold, color = onSurface)
+    val cardinals = listOf(
+        stringResource(R.string.compass_n) to 0f,
+        stringResource(R.string.compass_e) to 90f,
+        stringResource(R.string.compass_s) to 180f,
+        stringResource(R.string.compass_w) to 270f,
+    )
 
     Canvas(modifier) {
         val center = Offset(size.width / 2, size.height / 2)
@@ -180,9 +189,9 @@ private fun CompassDial(heading: Float, qibla: Float, aligned: Boolean, modifier
                     strokeWidth = (if (major) 3f else 1.5f).dp.toPx(),
                 )
             }
-            listOf("K" to 0f, "D" to 90f, "G" to 180f, "B" to 270f).forEach { (label, deg) ->
+            cardinals.forEach { (label, deg) ->
                 val layout = textMeasurer.measure(
-                    label, if (label == "K") labelStyle.copy(color = north) else labelStyle,
+                    label, if (deg == 0f) labelStyle.copy(color = north) else labelStyle,
                 )
                 val p = pointAt(deg, radius * 0.74f)
                 drawText(layout, topLeft = p - Offset(layout.size.width / 2f, layout.size.height / 2f))

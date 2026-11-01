@@ -6,6 +6,7 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ezansaati.app.notification.PrayerNotifications
@@ -69,10 +71,10 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-private enum class Tab(val label: String, val icon: ImageVector) {
-    VAKITLER("Vakitler", Icons.Filled.DateRange),
-    KIBLE("Kıble", Icons.Filled.Place),
-    AYARLAR("Ayarlar", Icons.Filled.Settings),
+private enum class Tab(@StringRes val label: Int, val icon: ImageVector) {
+    VAKITLER(R.string.tab_times, Icons.Filled.DateRange),
+    KIBLE(R.string.tab_qibla, Icons.Filled.Place),
+    AYARLAR(R.string.tab_settings, Icons.Filled.Settings),
 }
 
 @Composable
@@ -104,7 +106,7 @@ private fun AppRoot(viewModel: MainViewModel) {
                             selected = tab == item,
                             onClick = { tab = item },
                             icon = { Icon(item.icon, contentDescription = null) },
-                            label = { Text(item.label) },
+                            label = { Text(stringResource(item.label)) },
                         )
                     }
                 }

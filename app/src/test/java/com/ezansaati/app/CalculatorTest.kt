@@ -1,5 +1,7 @@
 package com.ezansaati.app
 
+import com.ezansaati.app.prayer.AsrMethod
+import com.ezansaati.app.prayer.CalculationMethod
 import com.ezansaati.app.prayer.Prayer
 import com.ezansaati.app.prayer.PrayerCalculator
 import com.ezansaati.app.prayer.nextPrayer
@@ -68,6 +70,34 @@ class CalculatorTest {
         val noon = today[Prayer.OGLE].plusMinutes(1)
         assertEquals(Prayer.OGLE, nextPrayer(noon, today, tomorrow).current)
         assertEquals(Prayer.IKINDI, nextPrayer(noon, today, tomorrow).next)
+    }
+
+    @Test
+    fun ummulKuraYatsisiAksamdan90DakikaSonra() {
+        val t = PrayerCalculator.calculate(
+            LocalDate.of(2026, 3, 1), 21.4225, 39.8262, ZoneId.of("Asia/Riyadh"),
+            method = CalculationMethod.UMM_AL_QURA,
+        )
+        assertEquals(t[Prayer.AKSAM].plusMinutes(90), t[Prayer.YATSI])
+    }
+
+    @Test
+    fun hanefiIkindiDahaGec() {
+        val date = LocalDate.of(2026, 6, 21)
+        val shafii = istanbul(date)
+        val hanafi = PrayerCalculator.calculate(date, 41.0082, 28.9784, istanbulZone, asr = AsrMethod.HANAFI)
+        assertTrue(hanafi[Prayer.IKINDI].isAfter(shafii[Prayer.IKINDI].plusMinutes(45)))
+        assertEquals(shafii[Prayer.OGLE], hanafi[Prayer.OGLE])
+    }
+
+    @Test
+    fun konumaGoreYontemOnerisi() {
+        assertEquals(CalculationMethod.DIYANET, CalculationMethod.suggestFor(41.0, 29.0)) // İstanbul
+        assertEquals(CalculationMethod.UMM_AL_QURA, CalculationMethod.suggestFor(21.42, 39.83)) // Mekke
+        assertEquals(CalculationMethod.EGYPT, CalculationMethod.suggestFor(30.04, 31.24)) // Kahire
+        assertEquals(CalculationMethod.KARACHI, CalculationMethod.suggestFor(24.86, 67.0)) // Karaçi
+        assertEquals(CalculationMethod.ISNA, CalculationMethod.suggestFor(40.71, -74.0)) // New York
+        assertEquals(CalculationMethod.MWL, CalculationMethod.suggestFor(52.52, 13.4)) // Berlin
     }
 
     @Test

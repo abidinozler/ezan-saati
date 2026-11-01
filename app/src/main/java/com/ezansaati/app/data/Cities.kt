@@ -1,6 +1,7 @@
 package com.ezansaati.app.data
 
 import kotlin.math.cos
+import kotlin.math.sqrt
 
 data class City(val name: String, val latitude: Double, val longitude: Double)
 
@@ -90,11 +91,13 @@ val TURKEY_CITIES = listOf(
 )
 
 /** Verilen koordinata en yakın il merkezi (küçük mesafeler için düzlem yaklaşımı yeterli). */
-fun nearestCity(latitude: Double, longitude: Double): City {
+/** En yakın il merkezi; [maxKm]'den uzaksa (ör. yurt dışı) null. */
+fun nearestCity(latitude: Double, longitude: Double, maxKm: Double = 80.0): City? {
     val k = cos(Math.toRadians(latitude))
-    return TURKEY_CITIES.minBy { city ->
+    fun km(city: City): Double {
         val dLat = city.latitude - latitude
         val dLng = (city.longitude - longitude) * k
-        dLat * dLat + dLng * dLng
+        return sqrt(dLat * dLat + dLng * dLng) * 111.2
     }
+    return TURKEY_CITIES.minBy(::km).takeIf { km(it) <= maxKm }
 }

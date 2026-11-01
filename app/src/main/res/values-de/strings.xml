@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_times">Gebetszeiten</string>
+    <string name="tab_qibla">Qibla</string>
+    <string name="tab_settings">Einstellungen</string>
+
+    <string name="prayer_imsak">Fadschr</string>
+    <string name="prayer_gunes">Sonnenaufgang</string>
+    <string name="prayer_ogle">Dhuhr</string>
+    <string name="prayer_ikindi">Asr</string>
+    <string name="prayer_aksam">Maghrib</string>
+    <string name="prayer_yatsi">Ischa</string>
+
+    <string name="remaining_imsak">Bis Fadschr</string>
+    <string name="remaining_gunes">Bis Sonnenaufgang</string>
+    <string name="remaining_ogle">Bis Dhuhr</string>
+    <string name="remaining_ikindi">Bis Asr</string>
+    <string name="remaining_aksam">Bis Maghrib</string>
+    <string name="remaining_yatsi">Bis Ischa</string>
+
+    <string name="moon_new">Neumond</string>
+    <string name="moon_waxing_crescent">Zunehmende Sichel</string>
+    <string name="moon_first_quarter">Erstes Viertel</string>
+    <string name="moon_waxing_gibbous">Zunehmender Mond</string>
+    <string name="moon_full">Vollmond</string>
+    <string name="moon_waning_gibbous">Abnehmender Mond</string>
+    <string name="moon_last_quarter">Letztes Viertel</string>
+    <string name="moon_waning_crescent">Abnehmende Sichel</string>
+
+    <string name="hijri_date">%1$d. %2$s %3$d n. H.</string>
+    <string-array name="hijri_months">
+        <item>Muharram</item>
+        <item>Safar</item>
+        <item>Rabi al-Awwal</item>
+        <item>Rabi ath-Thani</item>
+        <item>Dschumada al-Ula</item>
+        <item>Dschumada ath-Thaniya</item>
+        <item>Radschab</item>
+        <item>Schaban</item>
+        <item>Ramadan</item>
+        <item>Schawwal</item>
+        <item>Dhu l-Qada</item>
+        <item>Dhu l-Hiddscha</item>
+    </string-array>
+
+    <string name="method_auto">Automatisch: %s</string>
+    <string name="method_diyanet">Diyanet (Türkei)</string>
+    <string name="method_mwl">Islamische Weltliga</string>
+    <string name="method_isna">ISNA (Nordamerika)</string>
+    <string name="method_egypt">Ägyptische Generalbehörde</string>
+    <string name="method_karachi">Universität Karatschi</string>
+    <string name="method_umm_al_qura">Umm al-Qura (Mekka)</string>
+    <string name="asr_shafii">Standard (Schafiitisch, Malikitisch, Hanbalitisch)</string>
+    <string name="asr_hanafi">Hanafitisch</string>
+
+    <string name="home_method_note">Berechnet nach der Methode %s. Bei Abweichungen vom örtlichen Kalender können Sie die Minuten in den Einstellungen anpassen.</string>
+    <string name="home_no_location">Legen Sie Ihren Standort fest, um die Gebetszeiten zu berechnen.</string>
+    <string name="action_choose_location">Standort wählen</string>
+
+    <string name="qibla_no_location">Legen Sie zuerst in den Einstellungen Ihren Standort fest.</string>
+    <string name="qibla_angle">Qibla-Winkel: %s°</string>
+    <string name="qibla_distance">Im Uhrzeigersinn von geografisch Nord · %s km bis zur Kaaba</string>
+    <string name="qibla_no_sensor">Dieses Gerät hat keinen Kompasssensor. Sie können den Qibla-Winkel mit einer Karte oder einem normalen Kompass verwenden.</string>
+    <string name="qibla_starting">Kompass wird gestartet…</string>
+    <string name="qibla_aligned">✓ Sie sind zur Qibla ausgerichtet</string>
+    <string name="qibla_turn_right">Nach rechts drehen: %d°</string>
+    <string name="qibla_turn_left">Nach links drehen: %d°</string>
+    <string name="qibla_low_accuracy">Die Kompassgenauigkeit ist gering. Bewegen Sie das Telefon einige Male in Form einer 8.</string>
+    <string name="qibla_hint">Halten Sie das Telefon waagerecht und fern von Magneten, Metall und Elektronik.</string>
+    <string name="compass_n">N</string>
+    <string name="compass_e">O</string>
+    <string name="compass_s">S</string>
+    <string name="compass_w">W</string>
+
+    <string name="msg_location_failed">Standort konnte nicht ermittelt werden. Prüfen Sie, ob GPS aktiv ist, oder wählen Sie eine Stadt.</string>
+    <string name="msg_location_updated">Standort aktualisiert: bei %s</string>
+    <string name="msg_location_denied">Standortberechtigung verweigert. Sie können eine Stadt aus der Liste wählen.</string>
+    <string name="location_gps_city">%s (GPS)</string>
+
+    <string name="settings_location">Standort</string>
+    <string name="settings_no_location">Kein Standort gewählt</string>
+    <string name="action_use_my_location">Meinen Standort verwenden</string>
+    <string name="action_choose_city">Stadt wählen</string>
+    <string name="settings_method">Berechnungsmethode</string>
+    <string name="settings_asr">Asr-Zeit</string>
+    <string name="settings_notifications">Gebetsbenachrichtigungen</string>
+    <string name="action_grant_notifications">Benachrichtigungen erlauben</string>
+    <string name="settings_battery_hint">Manche Telefone verzögern Benachrichtigungen, um Akku zu sparen. Deaktivieren Sie die Akkuoptimierung für pünktliche Benachrichtigungen.</string>
+    <string name="action_disable_battery_optimization">Akkuoptimierung deaktivieren</string>
+    <string name="settings_lock_screen">Sperrbildschirm</string>
+    <string name="settings_lock_screen_countdown">Countdown anzeigen</string>
+    <string name="settings_lock_screen_hint">Verbleibende Zeit bis zum nächsten Gebet und die heutigen Zeiten auf dem Sperrbildschirm und in der Benachrichtigungsleiste. Lautlos.</string>
+    <string name="settings_needs_notification_permission">Dafür ist die Benachrichtigungsberechtigung nötig.</string>
+    <string name="settings_offsets">Zeiten feinjustieren (Minuten)</string>
+    <string name="settings_offsets_hint">Vergleichen Sie mit Ihrem örtlichen Kalender und korrigieren Sie Abweichungen hier.</string>
+    <string name="action_close">Schließen</string>
+    <string name="action_search">Suchen</string>
+
+    <string name="channel_prayer">Gebetszeiten</string>
+    <string name="channel_prayer_description">Benachrichtigung zu Beginn einer Gebetszeit</string>
+    <string name="notif_sunrise_title">Sonnenaufgang</string>
+    <string name="notif_sunrise_text">Die Zeit für das Fadschr-Gebet ist vorbei (%s)</string>
+    <string name="notif_prayer_title">Zeit für %s</string>
+    <string name="notif_prayer_text">Die Zeit für %1$s hat begonnen (%2$s)</string>
+    <string name="channel_countdown">Countdown auf dem Sperrbildschirm</string>
+    <string name="channel_countdown_description">Zeigt die verbleibende Zeit bis zum nächsten Gebet auf dem Sperrbildschirm</string>
+
+    <string name="widget_label">Gebetszeiten</string>
+    <string name="widget_description">Countdown zum nächsten Gebet und die heutigen Zeiten</string>
+    <string name="widget_empty">Tippen, um einen Standort zu wählen</string>
+</resources>

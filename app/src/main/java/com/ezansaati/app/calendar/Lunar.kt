@@ -1,5 +1,7 @@
 package com.ezansaati.app.calendar
 
+import androidx.annotation.StringRes
+import com.ezansaati.app.R
 import java.time.DateTimeException
 import java.time.Duration
 import java.time.Instant
@@ -16,11 +18,6 @@ object Lunar {
 
     /** Referans yeni ay: 6 Ocak 2000 18:14 UTC. */
     private val REFERENCE_NEW_MOON = Instant.parse("2000-01-06T18:14:00Z")
-
-    private val HIJRI_MONTHS = listOf(
-        "Muharrem", "Safer", "Rebiülevvel", "Rebiülahir", "Cemaziyelevvel", "Cemaziyelahir",
-        "Recep", "Şaban", "Ramazan", "Şevval", "Zilkade", "Zilhicce",
-    )
 
     /** Son yeni aydan bu yana geçen gün (0 ≤ yaş < 29,53). */
     fun moonAgeDays(instant: Instant): Double {
@@ -46,26 +43,43 @@ object Lunar {
         return (0..steps).map { point(it, 1f) } + (steps downTo 0).map { point(it, k) }
     }
 
-    fun phaseName(ageDays: Double): String {
+    fun phase(ageDays: Double): MoonPhase {
         val f = ageDays / SYNODIC_MONTH_DAYS
         return when {
-            f < 0.034 || f >= 0.966 -> "Yeni ay"
-            f < 0.216 -> "Hilal"
-            f < 0.284 -> "İlk dördün"
-            f < 0.466 -> "Şişkin ay"
-            f < 0.534 -> "Dolunay"
-            f < 0.716 -> "Şişkin ay"
-            f < 0.784 -> "Son dördün"
-            else -> "Hilal"
+            f < 0.034 || f >= 0.966 -> MoonPhase.NEW
+            f < 0.216 -> MoonPhase.WAXING_CRESCENT
+            f < 0.284 -> MoonPhase.FIRST_QUARTER
+            f < 0.466 -> MoonPhase.WAXING_GIBBOUS
+            f < 0.534 -> MoonPhase.FULL
+            f < 0.716 -> MoonPhase.WANING_GIBBOUS
+            f < 0.784 -> MoonPhase.LAST_QUARTER
+            else -> MoonPhase.WANING_CRESCENT
         }
     }
 
     /** Ümmü'l-Kura takvimine göre Hicri tarih; Diyanet takviminden ±1 gün farklı olabilir. */
-    fun hijriDate(date: LocalDate): String? = try {
+    fun hijriDate(date: LocalDate): HijriDate? = try {
         val hijri = HijrahDate.from(date)
-        "${hijri.get(ChronoField.DAY_OF_MONTH)} ${HIJRI_MONTHS[hijri.get(ChronoField.MONTH_OF_YEAR) - 1]} " +
-            "${hijri.get(ChronoField.YEAR)}"
+        HijriDate(
+            day = hijri.get(ChronoField.DAY_OF_MONTH),
+            month = hijri.get(ChronoField.MONTH_OF_YEAR),
+            year = hijri.get(ChronoField.YEAR),
+        )
     } catch (_: DateTimeException) {
         null
     }
+}
+
+/** month: 1 (Muharrem) … 12 (Zilhicce) */
+data class HijriDate(val day: Int, val month: Int, val year: Int)
+
+enum class MoonPhase(@StringRes val nameRes: Int) {
+    NEW(R.string.moon_new),
+    WAXING_CRESCENT(R.string.moon_waxing_crescent),
+    FIRST_QUARTER(R.string.moon_first_quarter),
+    WAXING_GIBBOUS(R.string.moon_waxing_gibbous),
+    FULL(R.string.moon_full),
+    WANING_GIBBOUS(R.string.moon_waning_gibbous),
+    LAST_QUARTER(R.string.moon_last_quarter),
+    WANING_CRESCENT(R.string.moon_waning_crescent),
 }

@@ -25,9 +25,9 @@ import com.ezansaati.app.prayer.NextPrayer
 import com.ezansaati.app.prayer.Prayer
 import com.ezansaati.app.prayer.PrayerTimes
 import com.ezansaati.app.prayer.nextPrayer
+import com.ezansaati.app.ui.Texts
 import java.time.Duration
 import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 
 class PrayerWidgetProvider : AppWidgetProvider() {
 
@@ -54,7 +54,7 @@ object PrayerWidget {
 
     const val ACTION_REFRESH = "com.ezansaati.app.widget.REFRESH"
     private const val REQUEST_CODE = 2001
-    private val TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm")
+    private val TIME_FORMAT = Texts.TIME
 
     private class Column(val container: Int, val time: Int)
 
@@ -140,10 +140,10 @@ object PrayerWidget {
         views.setInt(R.id.widget_root, "setBackgroundResource", BACKGROUNDS.getValue(next.current))
 
         views.setTextViewText(R.id.widget_location, location.name)
-        views.setTextViewText(R.id.widget_hijri, Lunar.hijriDate(today.date) ?: "")
+        views.setTextViewText(R.id.widget_hijri, Texts.hijriDate(context, today.date) ?: "")
         views.setTextViewText(
             R.id.widget_next_label,
-            "${next.next.dativeName} kalan · ${next.nextTime.format(TIME_FORMAT)}",
+            "${context.getString(next.next.remainingRes)} · ${next.nextTime.format(TIME_FORMAT)}",
         )
         views.setImageViewBitmap(R.id.widget_moon, moonBitmap(Lunar.moonAgeDays(now.toInstant())))
 

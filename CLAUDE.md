@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Personal-use Android app (Kotlin + Jetpack Compose): offline prayer times (Diyanet method), countdown, qibla compass, per-prayer notifications, home-screen widget. UI strings and code comments are in Turkish — keep it that way. Not published to Play Store, so `USE_EXACT_ALARM` and debug-signed release builds are intentional. Don't add network/API calls; prayer times must stay fully offline.
+Android app (Kotlin + Jetpack Compose): offline prayer times, countdown, qibla compass, per-prayer notifications, home-screen widget, lock-screen countdown notification. Code comments are in Turkish — keep it that way. Don't add network/API calls; prayer times must stay fully offline. Distributed as APK via GitHub Releases (`release.sh`, repo `abidinozler/ezan-saati`, phone updates with Obtainium); a Play Store release is planned (needs a non-debug upload key and replacing `USE_EXACT_ALARM` with user-granted `SCHEDULE_EXACT_ALARM`).
+
+Localization: all user-visible text lives in `res/values*/strings.xml` — `values/` is English (fallback), plus `values-tr`, `values-ar` (RTL), `values-de`. Add every new string to all four. Enums carry `@StringRes` (`Prayer.nameRes/remainingRes`, `CalculationMethod.nameRes`, `MoonPhase.nameRes`); times are always formatted with `Texts.TIME` (24h, Latin digits). Calculation method is user-selectable (`CalculationMethod`, default auto via `suggestFor(lat, lng)`; only Diyanet has temkin offsets) plus Shafi'i/Hanafi asr.
 
 ## Build & test
 
@@ -20,7 +22,7 @@ Build output is **not** in `app/build`: `settings.gradle.kts` redirects every pr
 
 Signing: both build types use `keystore/ezan.keystore` (a copy of the debug key that signed the first installed APK, SHA-256 `A7:72:AB:BD…`; gitignored, backed up only by OneDrive). Never replace it — a different key means the owner must uninstall and lose settings. `versionCode` is minutes since 2026-01-01 (auto-increments per build), `versionName` = `1.1.<versionCode>`.
 
-Only JVM unit tests exist (`app/src/test/.../CalculatorTest.kt`), covering `PrayerCalculator`, `nextPrayer` and `QiblaCalculator` against reference HH:mm values.
+Only JVM unit tests exist (`app/src/test/.../CalculatorTest.kt`, `LunarTest.kt`), covering `PrayerCalculator` (methods, asr), `nextPrayer`, `QiblaCalculator` and moon phase / Hijri date.
 
 ## Architecture
 
@@ -30,6 +32,6 @@ No DI, no database. `SettingsRepository` (SharedPreferences `ezan_settings`) is 
 
 **Alarm chain** (`notification/`): `AlarmScheduler.scheduleNext` sets exactly one exact alarm (fixed request code) for the next notification-enabled prayer within today/tomorrow. `PrayerAlarmReceiver` shows the notification (skipped if >15 min late) and schedules the next one. `SystemEventReceiver` re-arms the chain and widget on boot, time/timezone change, package update and exact-alarm permission change. `MainViewModel.refresh()` also re-arms both — any settings change goes through `refresh()`.
 
-**Widget** (`widget/PrayerWidget.kt`): RemoteViews with a `Chronometer` counting down on its own; the widget is only redrawn by a non-wakeup `RTC` alarm at the next prayer time or midnight (whichever is first), via `ACTION_REFRESH`.
+**Widget + lock-screen countdown** (`widget/PrayerWidget.kt`, `notification/CountdownNotification.kt`): `PrayerWidget.updateAll` refreshes both. RemoteViews and the ongoing notification use a `Chronometer` counting down on their own; they are only redrawn by a non-wakeup `RTC` alarm at the next prayer time or midnight (whichever is first), via `ACTION_REFRESH`.
 
 UI: single `MainActivity` hosting Compose screens (`ui/home`, `ui/qibla`, `ui/settings`) backed by one `MainViewModel` exposing `StateFlow<UiState>`. Location comes from GPS (`FusedLocationProvider`, coarse) snapped to the nearest of the 81 provinces in `data/Cities.kt` for naming, or picked from that list directly.

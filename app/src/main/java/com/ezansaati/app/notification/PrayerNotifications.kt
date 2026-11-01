@@ -15,9 +15,9 @@ import androidx.core.content.ContextCompat
 import com.ezansaati.app.MainActivity
 import com.ezansaati.app.R
 import com.ezansaati.app.prayer.Prayer
+import com.ezansaati.app.ui.Texts
 import java.time.Instant
 import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 
 object PrayerNotifications {
 
@@ -25,9 +25,9 @@ object PrayerNotifications {
 
     fun createChannel(context: Context) {
         val channel = NotificationChannel(
-            CHANNEL_ID, "Ezan vakitleri", NotificationManager.IMPORTANCE_HIGH,
+            CHANNEL_ID, context.getString(R.string.channel_prayer), NotificationManager.IMPORTANCE_HIGH,
         ).apply {
-            description = "Namaz vakti girdiğinde bildirim"
+            description = context.getString(R.string.channel_prayer_description)
             enableVibration(true)
         }
         context.getSystemService(NotificationManager::class.java).createNotificationChannel(channel)
@@ -45,11 +45,12 @@ object PrayerNotifications {
 
         val timeText = Instant.ofEpochMilli(timeMillis)
             .atZone(ZoneId.systemDefault())
-            .format(DateTimeFormatter.ofPattern("HH:mm"))
+            .format(Texts.TIME)
+        val name = context.getString(prayer.nameRes)
         val (title, text) = if (prayer == Prayer.GUNES) {
-            "Güneş doğdu" to "Sabah namazının vakti çıktı ($timeText)"
+            context.getString(R.string.notif_sunrise_title) to context.getString(R.string.notif_sunrise_text, timeText)
         } else {
-            "${prayer.displayName} vakti" to "${prayer.displayName} vakti girdi ($timeText)"
+            context.getString(R.string.notif_prayer_title, name) to context.getString(R.string.notif_prayer_text, name, timeText)
         }
 
         val openApp = PendingIntent.getActivity(

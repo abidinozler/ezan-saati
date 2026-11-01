@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_times">Vakitler</string>
+    <string name="tab_qibla">Kıble</string>
+    <string name="tab_settings">Ayarlar</string>
+
+    <string name="prayer_imsak">İmsak</string>
+    <string name="prayer_gunes">Güneş</string>
+    <string name="prayer_ogle">Öğle</string>
+    <string name="prayer_ikindi">İkindi</string>
+    <string name="prayer_aksam">Akşam</string>
+    <string name="prayer_yatsi">Yatsı</string>
+
+    <string name="remaining_imsak">İmsak\'a kalan</string>
+    <string name="remaining_gunes">Güneş\'e kalan</string>
+    <string name="remaining_ogle">Öğle\'ye kalan</string>
+    <string name="remaining_ikindi">İkindi\'ye kalan</string>
+    <string name="remaining_aksam">Akşam\'a kalan</string>
+    <string name="remaining_yatsi">Yatsı\'ya kalan</string>
+
+    <string name="moon_new">Yeni ay</string>
+    <string name="moon_waxing_crescent">Hilal</string>
+    <string name="moon_first_quarter">İlk dördün</string>
+    <string name="moon_waxing_gibbous">Şişkin ay</string>
+    <string name="moon_full">Dolunay</string>
+    <string name="moon_waning_gibbous">Şişkin ay</string>
+    <string name="moon_last_quarter">Son dördün</string>
+    <string name="moon_waning_crescent">Hilal</string>
+
+    <string name="hijri_date">%1$d %2$s %3$d</string>
+    <string-array name="hijri_months">
+        <item>Muharrem</item>
+        <item>Safer</item>
+        <item>Rebiülevvel</item>
+        <item>Rebiülahir</item>
+        <item>Cemaziyelevvel</item>
+        <item>Cemaziyelahir</item>
+        <item>Recep</item>
+        <item>Şaban</item>
+        <item>Ramazan</item>
+        <item>Şevval</item>
+        <item>Zilkade</item>
+        <item>Zilhicce</item>
+    </string-array>
+
+    <string name="method_auto">Otomatik: %s</string>
+    <string name="method_diyanet">Diyanet (Türkiye)</string>
+    <string name="method_mwl">Müslüman Dünya Birliği</string>
+    <string name="method_isna">ISNA (Kuzey Amerika)</string>
+    <string name="method_egypt">Mısır Genel Otoritesi</string>
+    <string name="method_karachi">Karaçi Üniversitesi</string>
+    <string name="method_umm_al_qura">Ümmü\'l-Kura (Mekke)</string>
+    <string name="asr_shafii">Asr-ı evvel (Şafii, Maliki, Hanbeli)</string>
+    <string name="asr_hanafi">Asr-ı sani (Hanefi)</string>
+
+    <string name="home_method_note">%s yöntemiyle hesaplanmıştır. Takvimle fark varsa Ayarlar\'dan dakika ayarı yapabilirsiniz.</string>
+    <string name="home_no_location">Vakitleri hesaplamak için konumunuzu belirleyin.</string>
+    <string name="action_choose_location">Konum seç</string>
+
+    <string name="qibla_no_location">Kıble yönü için önce Ayarlar\'dan konum belirleyin.</string>
+    <string name="qibla_angle">Kıble açısı: %s°</string>
+    <string name="qibla_distance">Gerçek kuzeyden saat yönünde · Kâbe\'ye %s km</string>
+    <string name="qibla_no_sensor">Bu cihazda pusula sensörü bulunamadı. Kıble açısını harita veya klasik bir pusulayla kullanabilirsiniz.</string>
+    <string name="qibla_starting">Pusula başlatılıyor…</string>
+    <string name="qibla_aligned">✓ Kıbleye dönüksünüz</string>
+    <string name="qibla_turn_right">Sağa dönün: %d°</string>
+    <string name="qibla_turn_left">Sola dönün: %d°</string>
+    <string name="qibla_low_accuracy">Pusula hassasiyeti düşük. Telefonu havada birkaç kez 8 çizerek kalibre edin.</string>
+    <string name="qibla_hint">Telefonu yatay tutun; mıknatıs, metal eşya ve elektronik cihazlardan uzak durun.</string>
+    <string name="compass_n">K</string>
+    <string name="compass_e">D</string>
+    <string name="compass_s">G</string>
+    <string name="compass_w">B</string>
+
+    <string name="msg_location_failed">Konum alınamadı. GPS\'in açık olduğundan emin olun veya şehir seçin.</string>
+    <string name="msg_location_updated">Konum güncellendi: %s civarı</string>
+    <string name="msg_location_denied">Konum izni verilmedi. Listeden şehir seçebilirsiniz.</string>
+    <string name="location_gps_city">%s (GPS)</string>
+
+    <string name="settings_location">Konum</string>
+    <string name="settings_no_location">Konum seçilmedi</string>
+    <string name="action_use_my_location">Konumumu kullan</string>
+    <string name="action_choose_city">Şehir seç</string>
+    <string name="settings_method">Hesaplama yöntemi</string>
+    <string name="settings_asr">İkindi vakti</string>
+    <string name="settings_notifications">Ezan bildirimleri</string>
+    <string name="action_grant_notifications">Bildirim izni ver</string>
+    <string name="settings_battery_hint">Bazı telefonlar pil tasarrufu için bildirimleri geciktirir. Zamanında bildirim için pil optimizasyonunu kapatın.</string>
+    <string name="action_disable_battery_optimization">Pil optimizasyonunu kapat</string>
+    <string name="settings_lock_screen">Kilit ekranı</string>
+    <string name="settings_lock_screen_countdown">Geri sayımı göster</string>
+    <string name="settings_lock_screen_hint">Kilit ekranında ve bildirim panelinde sıradaki vakte kalan süre ile günün vakitleri. Sessizdir.</string>
+    <string name="settings_needs_notification_permission">Görünmesi için bildirim izni gerekir.</string>
+    <string name="settings_offsets">Vakit ince ayarı (dakika)</string>
+    <string name="settings_offsets_hint">Resmî takvimle karşılaştırın; fark varsa buradan düzeltin.</string>
+    <string name="action_close">Kapat</string>
+    <string name="action_search">Ara</string>
+
+    <string name="channel_prayer">Ezan vakitleri</string>
+    <string name="channel_prayer_description">Namaz vakti girdiğinde bildirim</string>
+    <string name="notif_sunrise_title">Güneş doğdu</string>
+    <string name="notif_sunrise_text">Sabah namazının vakti çıktı (%s)</string>
+    <string name="notif_prayer_title">%s vakti</string>
+    <string name="notif_prayer_text">%1$s vakti girdi (%2$s)</string>
+    <string name="channel_countdown">Kilit ekranı geri sayımı</string>
+    <string name="channel_countdown_description">Sıradaki vakte kalan süreyi kilit ekranında gösterir</string>
+
+    <string name="widget_label">Ezan vakitleri</string>
+    <string name="widget_description">Sıradaki vakte geri sayım ve günün vakitleri</string>
+    <string name="widget_empty">Konum seçmek için dokunun</string>
+</resources>

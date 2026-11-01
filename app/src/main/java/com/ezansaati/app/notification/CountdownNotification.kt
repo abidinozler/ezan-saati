@@ -11,12 +11,11 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.ezansaati.app.MainActivity
 import com.ezansaati.app.R
-import com.ezansaati.app.calendar.Lunar
 import com.ezansaati.app.data.SavedLocation
 import com.ezansaati.app.prayer.NextPrayer
 import com.ezansaati.app.prayer.Prayer
 import com.ezansaati.app.prayer.PrayerTimes
-import java.time.format.DateTimeFormatter
+import com.ezansaati.app.ui.Texts
 
 /**
  * Kilit ekranında da görünen, sessiz ve kalıcı geri sayım bildirimi.
@@ -26,14 +25,14 @@ object CountdownNotification {
 
     private const val CHANNEL_ID = "geri_sayim"
     private const val NOTIFICATION_ID = 50
-    private val TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm")
+    private val TIME_FORMAT = Texts.TIME
 
     private fun createChannel(context: Context) {
         // IMPORTANCE_DEFAULT: "sessiz bildirim" sayılıp kilit ekranında gizlenmesin; ses ve titreşim kapalı.
         val channel = NotificationChannel(
-            CHANNEL_ID, "Kilit ekranı geri sayımı", NotificationManager.IMPORTANCE_DEFAULT,
+            CHANNEL_ID, context.getString(R.string.channel_countdown), NotificationManager.IMPORTANCE_DEFAULT,
         ).apply {
-            description = "Sıradaki vakte kalan süreyi kilit ekranında gösterir"
+            description = context.getString(R.string.channel_countdown_description)
             setSound(null, null)
             enableVibration(false)
             setShowBadge(false)
@@ -52,12 +51,12 @@ object CountdownNotification {
             Intent(context, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
             PendingIntent.FLAG_IMMUTABLE,
         )
-        val times = Prayer.entries.joinToString("   ") { "${it.displayName} ${today[it].format(TIME_FORMAT)}" }
-        val subtitle = listOfNotNull(location.name, Lunar.hijriDate(today.date)).joinToString(" · ")
+        val times = Prayer.entries.joinToString("   ") { "${context.getString(it.nameRes)} ${today[it].format(TIME_FORMAT)}" }
+        val subtitle = listOfNotNull(location.name, Texts.hijriDate(context, today.date)).joinToString(" · ")
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_stat_crescent)
-            .setContentTitle("${next.next.dativeName} kalan · ${next.nextTime.format(TIME_FORMAT)}")
+            .setContentTitle("${context.getString(next.next.remainingRes)} · ${next.nextTime.format(TIME_FORMAT)}")
             .setContentText(subtitle)
             .setStyle(NotificationCompat.BigTextStyle().bigText("$subtitle\n$times"))
             .setWhen(next.nextTime.toInstant().toEpochMilli())
