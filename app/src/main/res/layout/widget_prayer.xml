@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_background"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/widget_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="Konum seçmek için dokunun"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/widget_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="4dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/widget_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="İstanbul"
+                    android:textColor="#D9FFFFFF"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/widget_hijri"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="10 Cemaziyelevvel 1448"
+                    android:textColor="#E8C66A"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/widget_next_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="Akşam'a kalan · 18:07"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/widget_moon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="Ay evresi" />
+
+            <Chronometer
+                android:id="@+id/widget_countdown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#E8C66A"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/col_imsak"
+                style="@style/WidgetColumn">
+                <TextView style="@style/WidgetName" android:text="İmsak" />
+                <TextView android:id="@+id/time_imsak" style="@style/WidgetTime" android:text="06:02" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/col_gunes"
+                style="@style/WidgetColumn">
+                <TextView style="@style/WidgetName" android:text="Güneş" />
+                <TextView android:id="@+id/time_gunes" style="@style/WidgetTime" android:text="07:28" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/col_ogle"
+                style="@style/WidgetColumn">
+                <TextView style="@style/WidgetName" android:text="Öğle" />
+                <TextView android:id="@+id/time_ogle" style="@style/WidgetTime" android:text="12:53" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/col_ikindi"
+                style="@style/WidgetColumn">
+                <TextView style="@style/WidgetName" android:text="İkindi" />
+                <TextView android:id="@+id/time_ikindi" style="@style/WidgetTime" android:text="15:40" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/col_aksam"
+                style="@style/WidgetColumn"
+                android:background="@drawable/widget_highlight">
+                <TextView style="@style/WidgetName" android:text="Akşam" />
+                <TextView android:id="@+id/time_aksam" style="@style/WidgetTime" android:text="18:07" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/col_yatsi"
+                style="@style/WidgetColumn">
+                <TextView style="@style/WidgetName" android:text="Yatsı" />
+                <TextView android:id="@+id/time_yatsi" style="@style/WidgetTime" android:text="19:28" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

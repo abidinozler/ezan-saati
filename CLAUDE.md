@@ -1,0 +1,35 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Project
+
+Personal-use Android app (Kotlin + Jetpack Compose): offline prayer times (Diyanet method), countdown, qibla compass, per-prayer notifications, home-screen widget. UI strings and code comments are in Turkish — keep it that way. Not published to Play Store, so `USE_EXACT_ALARM` and debug-signed release builds are intentional. Don't add network/API calls; prayer times must stay fully offline.
+
+## Build & test
+
+Android Studio's bundled JBR is Java 25, which requires Gradle 9.x (project: Gradle 9.8.2, AGP 9.5 with built-in Kotlin — there is no separate `kotlin-android` plugin). Run from the Bash tool:
+
+```bash
+JAVA_HOME="/c/Program Files/Android/Android Studio/jbr" ./gradlew assembleDebug testDebugUnitTest
+# single test
+JAVA_HOME="/c/Program Files/Android/Android Studio/jbr" ./gradlew testDebugUnitTest --tests "com.ezansaati.app.CalculatorTest.istanbulYazGundonumu"
+```
+
+Build output is **not** in `app/build`: `settings.gradle.kts` redirects every project's build dir to `%LOCALAPPDATA%\EzanSaatiBuild\<project>` because OneDrive locks files and breaks builds. The APK is at `%LOCALAPPDATA%\EzanSaatiBuild\app\outputs\apk\debug\app-debug.apk`; after changes, copy it to the project root as `EzanSaati.apk` — the owner installs it on their phone manually (don't adb-install to networked devices).
+
+Signing: both build types use `keystore/ezan.keystore` (a copy of the debug key that signed the first installed APK, SHA-256 `A7:72:AB:BD…`; gitignored, backed up only by OneDrive). Never replace it — a different key means the owner must uninstall and lose settings. `versionCode` is minutes since 2026-01-01 (auto-increments per build), `versionName` = `1.1.<versionCode>`.
+
+Only JVM unit tests exist (`app/src/test/.../CalculatorTest.kt`), covering `PrayerCalculator`, `nextPrayer` and `QiblaCalculator` against reference HH:mm values.
+
+## Architecture
+
+No DI, no database. `SettingsRepository` (SharedPreferences `ezan_settings`) is the single source of truth and is read synchronously from the ViewModel, BroadcastReceivers and the widget alike. Prayer times are never stored — `SettingsRepository.timesFor(date)` recomputes them from the saved location + user minute offsets via `PrayerCalculator` every time.
+
+`PrayerCalculator` = PrayTimes.org algorithm with Diyanet params (fajr 18°, isha 17°, Shafi asr) plus `DIYANET_TEMKIN` fixed offsets, then per-prayer user offsets (±15 min, from Settings screen).
+
+**Alarm chain** (`notification/`): `AlarmScheduler.scheduleNext` sets exactly one exact alarm (fixed request code) for the next notification-enabled prayer within today/tomorrow. `PrayerAlarmReceiver` shows the notification (skipped if >15 min late) and schedules the next one. `SystemEventReceiver` re-arms the chain and widget on boot, time/timezone change, package update and exact-alarm permission change. `MainViewModel.refresh()` also re-arms both — any settings change goes through `refresh()`.
+
+**Widget** (`widget/PrayerWidget.kt`): RemoteViews with a `Chronometer` counting down on its own; the widget is only redrawn by a non-wakeup `RTC` alarm at the next prayer time or midnight (whichever is first), via `ACTION_REFRESH`.
+
+UI: single `MainActivity` hosting Compose screens (`ui/home`, `ui/qibla`, `ui/settings`) backed by one `MainViewModel` exposing `StateFlow<UiState>`. Location comes from GPS (`FusedLocationProvider`, coarse) snapped to the nearest of the 81 provinces in `data/Cities.kt` for naming, or picked from that list directly.

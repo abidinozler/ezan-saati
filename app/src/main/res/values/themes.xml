@@ -1,0 +1,6 @@
+<resources>
+    <style name="Theme.EzanSaati" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">#FF0B1633</item>
+    </style>
+    <color name="ic_launcher_background">#0F5C4D</color>
+</resources>

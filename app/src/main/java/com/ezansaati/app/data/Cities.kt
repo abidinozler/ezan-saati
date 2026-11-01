@@ -1,0 +1,100 @@
+package com.ezansaati.app.data
+
+import kotlin.math.cos
+
+data class City(val name: String, val latitude: Double, val longitude: Double)
+
+/** 81 il merkezi (yaklaşık koordinatlar). GPS olmadan şehir seçmek ve GPS konumuna isim vermek için. */
+val TURKEY_CITIES = listOf(
+    City("Adana", 37.0000, 35.3213),
+    City("Adıyaman", 37.7648, 38.2786),
+    City("Afyonkarahisar", 38.7507, 30.5567),
+    City("Ağrı", 39.7191, 43.0503),
+    City("Aksaray", 38.3687, 34.0370),
+    City("Amasya", 40.6499, 35.8353),
+    City("Ankara", 39.9334, 32.8597),
+    City("Antalya", 36.8969, 30.7133),
+    City("Ardahan", 41.1105, 42.7022),
+    City("Artvin", 41.1828, 41.8183),
+    City("Aydın", 37.8560, 27.8416),
+    City("Balıkesir", 39.6484, 27.8826),
+    City("Bartın", 41.6344, 32.3375),
+    City("Batman", 37.8812, 41.1351),
+    City("Bayburt", 40.2552, 40.2249),
+    City("Bilecik", 40.1451, 29.9799),
+    City("Bingöl", 38.8847, 40.4939),
+    City("Bitlis", 38.4006, 42.1095),
+    City("Bolu", 40.7350, 31.6061),
+    City("Burdur", 37.7203, 30.2908),
+    City("Bursa", 40.1885, 29.0610),
+    City("Çanakkale", 40.1553, 26.4142),
+    City("Çankırı", 40.6013, 33.6134),
+    City("Çorum", 40.5506, 34.9556),
+    City("Denizli", 37.7765, 29.0864),
+    City("Diyarbakır", 37.9144, 40.2306),
+    City("Düzce", 40.8438, 31.1565),
+    City("Edirne", 41.6818, 26.5623),
+    City("Elazığ", 38.6810, 39.2264),
+    City("Erzincan", 39.7500, 39.5000),
+    City("Erzurum", 39.9043, 41.2679),
+    City("Eskişehir", 39.7767, 30.5206),
+    City("Gaziantep", 37.0662, 37.3833),
+    City("Giresun", 40.9128, 38.3895),
+    City("Gümüşhane", 40.4386, 39.5086),
+    City("Hakkari", 37.5833, 43.7333),
+    City("Hatay", 36.2021, 36.1600),
+    City("Iğdır", 39.9237, 44.0450),
+    City("Isparta", 37.7648, 30.5566),
+    City("İstanbul", 41.0082, 28.9784),
+    City("İzmir", 38.4237, 27.1428),
+    City("Kahramanmaraş", 37.5858, 36.9371),
+    City("Karabük", 41.2061, 32.6204),
+    City("Karaman", 37.1759, 33.2287),
+    City("Kars", 40.6013, 43.0975),
+    City("Kastamonu", 41.3887, 33.7827),
+    City("Kayseri", 38.7312, 35.4787),
+    City("Kırıkkale", 39.8468, 33.5153),
+    City("Kırklareli", 41.7333, 27.2167),
+    City("Kırşehir", 39.1425, 34.1709),
+    City("Kilis", 36.7184, 37.1212),
+    City("Kocaeli", 40.8533, 29.8815),
+    City("Konya", 37.8746, 32.4932),
+    City("Kütahya", 39.4167, 29.9833),
+    City("Malatya", 38.3552, 38.3095),
+    City("Manisa", 38.6191, 27.4289),
+    City("Mardin", 37.3212, 40.7245),
+    City("Mersin", 36.8121, 34.6415),
+    City("Muğla", 37.2153, 28.3636),
+    City("Muş", 38.9462, 41.7539),
+    City("Nevşehir", 38.6939, 34.6857),
+    City("Niğde", 37.9667, 34.6833),
+    City("Ordu", 40.9839, 37.8764),
+    City("Osmaniye", 37.0742, 36.2478),
+    City("Rize", 41.0201, 40.5234),
+    City("Sakarya", 40.7569, 30.3781),
+    City("Samsun", 41.2928, 36.3313),
+    City("Siirt", 37.9333, 41.9500),
+    City("Sinop", 42.0231, 35.1531),
+    City("Sivas", 39.7477, 37.0179),
+    City("Şanlıurfa", 37.1591, 38.7969),
+    City("Şırnak", 37.5164, 42.4611),
+    City("Tekirdağ", 40.9833, 27.5167),
+    City("Tokat", 40.3167, 36.5500),
+    City("Trabzon", 41.0015, 39.7178),
+    City("Tunceli", 39.1079, 39.5401),
+    City("Uşak", 38.6823, 29.4082),
+    City("Van", 38.4891, 43.4089),
+    City("Yalova", 40.6500, 29.2667),
+    City("Yozgat", 39.8181, 34.8147),
+    City("Zonguldak", 41.4564, 31.7987),
+)
+
+/** Verilen koordinata en yakın il merkezi (küçük mesafeler için düzlem yaklaşımı yeterli). */
+fun nearestCity(latitude: Double, longitude: Double): City {
+    val k = cos(Math.toRadians(latitude))
+    return TURKEY_CITIES.minBy { city ->
+        val dLat = city.latitude - latitude
+        val dLng = (city.longitude - longitude) * k
+        dLat * dLat + dLng * dLng
+    }
+}
